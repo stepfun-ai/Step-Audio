@@ -12,18 +12,20 @@
 
 ## 1. Introduction
 
-Step-Audio is a state-of-the-art end-to-end voice model, proposed by StepFun. Step-Audio processes and generates both text and speech inputs/outputs in a unified framework, supporting multilingual conversations (e.g., Chinese, English, Japanese), emotional tones (e.g., joy/sadness), regional dialects (e.g., Cantonese/Sichuanese), adjustable speech rates, and prosodic styles (e.g., rap). Step-Audio demonstrates three key technical innovations:
+Step-Audio is the first production-ready open-source framework for intelligent speech interaction that harmonizes comprehension and generation, supporting multilingual conversations (e.g., Chinese, English, Japanese), emotional tones (e.g., joy/sadness), regional dialects (e.g., Cantonese/Sichuanese), adjustable speech rates, and prosodic styles (e.g., rap). Step-Audio demonstrates four key technical innovations:
 
-- Dual-codebook speech tokenizer: Decouples content and paralinguistic feature encoding for efficient compatibility with complex dialects and prosodic patterns.
-
-- Speech RLHF optimization: Integrates human feedback reinforcement
-learning to enhance speech naturalness and instruction alignment.
-
-- Full-stack acceleration: Implements slice delay compensation and specu-lative decoding, improving inference efficiency by 40% (vs. LLaMA-Omni). 
+- **130B-Parameter Multimodal Model**: A single unified model integrating comprehension and generation capabilities, performing speech recognition, semantic understanding, dialogue, voice cloning, and speech synthesis. We have made the 130B Step-Audio-Chat variant open source.
+    
+- **Generative Data Engine**: Eliminates traditional TTS's reliance on manual data collection by generating high-quality audio through our 130B-parameter multimodal model. Leverages this data to train and publicly release a resource-efficient Step-Audio-TTS-3B model with enhanced instruction-following capabilities for controllable speech synthesis.
+    
+- **Granular Voice Control**: Enables precise regulation through instruction-based control design, supporting multiple emotions (anger, joy, sadness), dialects (Cantonese, Sichuanese, etc.), and vocal styles (rap, a cappella humming) to meet diverse speech generation needs.
+    
+- **Enhanced Intelligence**: Improves agent performance in complex tasks through ToolCall mechanism integration and role-playing enhancements.
+\end{itemize}
 
 ## 2. Model Summary
 In Step-Audio, audio streams are tokenized via a dual-codebook framework, combining parallel semantic (16.7Hz, 1024-entry codebook) and acoustic (25Hz, 4096-entry codebook) tokenizers with 2:3 temporal interleaving. A 130B-parameter LLM foundation (Step-1) is further enhanced via audio-contextualized continual pretraining and task-specific post-training, enabling robust cross-modal speech understanding. A hybrid speech decoder combining flow matching with neural vocoding, optimized for real-time waveform generation. A streaming-aware architecture featuring speculative response generation (40\% commit rate) and text-based context management (14:1 compression ratio) for efficient cross-modal alignment.
-![Architecture](assets/architecture.jpeg)
+![Architecture](assets/architecture.png)
 
 ### 2.1 Tokenizer
 
@@ -514,7 +516,7 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 ### speed control
 | prompt | response |
 |:-------:|:-------:|
-|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？|<audio controls><source src="./examples/speed_control1.wav" type="audio/wav">您的浏览器不支持音频播放。</audio>|
+|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？|[audio]("./examples/speed_control1.wav")|
 |human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 呃，你再用非常非常慢的速度说一遍的。|<audio controls><source src="./examples/speed_control2.wav" type="audio/wav">您的浏览器不支持音频播放。</audio>|
 
 ### High EQ(emotional control & tone control)
