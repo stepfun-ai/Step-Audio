@@ -42,16 +42,16 @@ To enable real-time interactions, we have designed an optimized inference pipeli
 ![Inference Pipeline](assets/pipeline.png)
 
 ### 2.5 Post training details
-In the post-training phase, we conducted task-specific SFT(Supervised Fine-Tuning) for ASR(Automatic Speech Recognition) and TTS(Text-to-Speech), while implementing SFT with diversified high-quality datasets combined with RLHF(Reinforcement Learning from Human Feedback) for Audio Question Audio Answer(AQTA) tasks to enhance response quality, enabling fine-grained control over emotional modulation, dialect adaptation, and prosodic pattern generation.
+In the post-training phase, we conducted task-specific Supervised Fine-Tuning (SFT) for Automatic Speech Recognition (ASR) and Text-to-Speech (TTS). For Audio Input Text Output (AQTA) tasks, we implemented SFT using diversified high-quality datasets combined with Reinforcement Learning from Human Feedback (RLHF) to enhance response quality, enabling fine-grained control over emotional expression, speech speed, dialect, and prosody.
 ![RLHF](assets/rlhf.png)
 
 
 ## 3. Model Download
 | Models   | Links   |
 |-------|-------|
-| Step-Audio-Tokenizer | [🤗huggingface](https://huggingface.co/stepfun-ai/) |
-| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/) |
-| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/) |
+| Step-Audio-Tokenizer | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer) |
+| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) |
+| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Chat) |
 
 ## 4. Model Usage
 ### 📜 4.1  Requirements
@@ -375,10 +375,11 @@ python app.py --model-path where_you_download_dir
 </table>
 
 ### 5.3 AQTA Chat
-We release **StepEval-Audio-360** as a new benchmark, which consists of 100 multi-turn Chinese prompts sourced from real users and is designed to evaluate the quality of generated response across the following dimensions: linguistic competence, emotional intelligence, logical reasoning, creative generation, commonsense knowledge, complex instruction adherence, role-playing capabilities, gaming interactions, real-world task handling, memory retention, safety compliance, educational tutoring, and comprehensive understanding.
+We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360) as a new benchmark, which consists of 100 multi-turn Chinese prompts sourced from real users and is designed to evaluate the quality of generated response across the following dimensions: linguistic competence, emotional intelligence, logical reasoning, creative generation, commonsense knowledge, complex instruction adherence, role-playing capabilities, gaming interactions, real-world task handling, memory retention, safety compliance, educational tutoring, and comprehensive understanding.
 
 #### 5.3.1 StepEval-Audio-360
 
+#### LLM judge metrics
 <table>
     <thead>
         <tr>
@@ -402,7 +403,7 @@ We release **StepEval-Audio-360** as a new benchmark, which consists of 100 mult
             <td style="text-align:center">2.23</td>
         </tr>
         <tr>
-            <td>Moshi\textsuperscript{*}</td>
+            <td>Moshi*</td>
             <td style="text-align:center">1.0</td>
             <td style="text-align:center">0</td>
             <td style="text-align:center">1.49</td>
@@ -416,6 +417,11 @@ We release **StepEval-Audio-360** as a new benchmark, which consists of 100 mult
     </tbody>
 </table>
 
+*Note: Moshi are marked with "\*" and should be considered for reference only. 
+
+#### Radar Chart
+<img src="./assets/stepeval_radar_chart.png" width="600" alt="QR code">
+
 #### 5.3.2 Public Test Set
 
 <table>
@@ -424,7 +430,7 @@ We release **StepEval-Audio-360** as a new benchmark, which consists of 100 mult
             <th>Model</th>
             <th style="text-align:center">Llama Question</th>
             <th style="text-align:center">Web Questions</th>
-            <th style="text-align:center">TriviaQA\textsuperscript{*}</th>
+            <th style="text-align:center">TriviaQA*</th>
             <th style="text-align:center">ComplexBench</th>
             <th style="text-align:center">HSK-6</th>
         </tr>
@@ -524,12 +530,6 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 |English||
 |human: human：こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|<audio controls><source src="examples/multilingual1.wav" type="audio/mpeg">您的浏览器不支持音频播放。</audio>|
 
-### Dialects (e.g., Cantonese, Sichuan dialect)
-| prompt | response |
-|:-------:|:-------:|
-|Cantonese||
-|Sichuan dialect||
-
 ### Rap & Vocal
 | prompt | response |
 |:-------:|:-------:|
@@ -538,8 +538,7 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 ## 8. Citation
 ```
 @misc{stepaudiotechnicalreport,
-      title={Step-Audio Technical Report: Harmonized Understanding
-and Generation for Controllable, Tool-Augmented Speech Interaction}, 
+      title={Step-Audio: Harmonized Understanding and Generation for Intelligent Speech Interaction}, 
       author={Step-Audio Team},
       year={2025},
 }
