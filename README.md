@@ -381,7 +381,7 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
 
 #### 5.3.1 StepEval-Audio-360
 
-#### LLM judge metrics
+#### LLM judge metrics(GPT-4o)
 <table>
     <thead>
         <tr>
@@ -421,7 +421,7 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
 
 *Note: Moshi are marked with "\*" and should be considered for reference only. 
 
-#### Radar Chart
+#### Radar Chart(Human Evaluation)
 <img src="./assets/stepeval_radar_chart.png" width="600" alt="QR code">
 
 #### 5.3.2 Public Test Set
