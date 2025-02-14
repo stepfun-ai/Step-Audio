@@ -510,32 +510,32 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 ### clone audio
 | role   | prompt wav | clone wav |
 |:-------:|:-------:|:-------:|
-|赵本山| [audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/prompt_wav_zhaobenshan.mp3")|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/clone_wav_zhaobenshan.mp3")| 
-|李雪琴| [audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/prompt_wav_lixueqin.wav")|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/clone_wav_lixueqin.mp3")| 
+|赵本山| [audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/prompt_wav_zhaobenshan.mp3)|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/clone_wav_zhaobenshan.mp3)| 
+|李雪琴| [audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/prompt_wav_lixueqin.wav)|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/clone_wav_lixueqin.mp3)| 
 
 ### speed control
 | prompt | response |
 |:-------:|:-------:|
-|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？|[audio]("https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/speed_control1.wav")|
-|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 呃，你再用非常非常慢的速度说一遍的。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/speed_control2.wav")|
+|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/speed_control1.wav)|
+|human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 呃，你再用非常非常慢的速度说一遍的。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/speed_control2.wav)|
 
 ### High EQ(emotional control & tone control)
 | prompt | response |
 |:-------:|:-------:|
-|human: 你这语气又不撒娇又不卖萌的，要不你撒个娇卖个萌吧。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/tone_control.wav")|
-|human: 怎么办？我感觉我的人生很失败。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/emotional_control1.wav")|
-|human: 小跃。你真的是。特别厉害。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/emotional_control2.wav")|
+|human: 你这语气又不撒娇又不卖萌的，要不你撒个娇卖个萌吧。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/tone_control.wav)|
+|human: 怎么办？我感觉我的人生很失败。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/emotional_control1.wav)|
+|human: 小跃。你真的是。特别厉害。|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/emotional_control2.wav)|
 
 ### Multilingual (e.g., Chinese, English, Japanese)
 | prompt | response |
 |:-------:|:-------:|
 |English||
-|human: human：こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/multilingual1.wav")|
+|human: human：こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/multilingual1.wav)|
 
 ### Rap & Vocal
 | prompt | response |
 |:-------:|:-------:|
-|human：唱一段rap|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/rap.wav")|
+|human：唱一段rap|[audio](https://github.com/stepfun-ai/Step-Audio/tree/gz/dev/examples/rap.wav)|
 
 ## 8. Citation
 ```
