@@ -34,7 +34,7 @@ class CustomAsr:
         return text
 
 
-def add_message(chatbot, history, mic, text, asr_model):
+def add_message(chatbot, history, mic, text):
     if not mic and not text:
         return chatbot, history, "Input is empty"
 
@@ -43,10 +43,7 @@ def add_message(chatbot, history, mic, text, asr_model):
         history.append({"role": "user", "content": text})
     elif mic and Path(mic).exists():
         chatbot.append({"role": "user", "content": {"path": mic}})
-        # 使用用户语音的 asr 结果为了加速推理
-        text = asr_model.run(mic)
-        chatbot.append({"role": "user", "content": text})
-        history.append({"role": "user", "content": text})
+        history.append({"role": "user", "content": {"type":"audio", "audio": mic}})
 
     print(f"{history=}")
     return chatbot, history, None
@@ -69,12 +66,24 @@ def save_tmp_audio(audio, sr):
     return temp_audio.name
 
 
-def predict(chatbot, history, audio_model):
+def predict(chatbot, history, audio_model, asr_model):
     """Generate a response from the model."""
     try:
+        is_input_audio = False
+        user_audio_path = None
+        # 检测用户输入的是音频还是文本
+        if isinstance(history[-1]["content"], dict):
+            is_input_audio = True
+            user_audio_path = history[-1]["content"]["audio"]
         text, audio, sr = audio_model(history, "闫雨婷")
         print(f"predict {text=}")
         audio_path = save_tmp_audio(audio, sr)
+        # 缓存用户语音的 asr 文本结果为了加速下一次推理
+        if is_input_audio:
+            asr_text = asr_model.run(user_audio_path)
+            chatbot.append({"role": "user", "content": asr_text})
+            history[-1]["content"] = asr_text
+            print(f"{asr_text=}")
         chatbot.append({"role": "assistant", "content": {"path": audio_path}})
         chatbot.append({"role": "assistant", "content": text})
         history.append({"role": "assistant", "content": text})
@@ -105,13 +114,13 @@ def _launch_demo(args, audio_model, asr_model):
 
         def on_submit(chatbot, history, mic, text):
             chatbot, history, error = add_message(
-                chatbot, history, mic, text, asr_model
+                chatbot, history, mic, text
             )
             if error:
                 gr.Warning(error)  # 显示警告消息
                 return chatbot, history, None, None
             else:
-                chatbot, history = predict(chatbot, history, audio_model)
+                chatbot, history = predict(chatbot, history, audio_model, asr_model)
                 return chatbot, history, None, None
 
         submit_btn.click(
@@ -133,7 +142,7 @@ def _launch_demo(args, audio_model, asr_model):
             while history and history[-1]["role"] == "assistant":
                 print(f"discard {history[-1]}")
                 history.pop()
-            return predict(chatbot, history, audio_model)
+            return predict(chatbot, history, audio_model, asr_model)
 
         regen_btn.click(
             regenerate,

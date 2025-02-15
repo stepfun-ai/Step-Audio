@@ -42,6 +42,11 @@ class StepAudio:
             output_audio = volumn_adjust(output_audio, volumn_ratio)
         return output_text, output_audio, sr
 
+    def encode_audio(self, audio_path):
+        audio_wav, sr = load_audio(audio_path)
+        audio_tokens = self.encoder(audio_wav, sr)
+        return audio_tokens
+
     def apply_chat_template(self, messages: list):
         text_with_audio = ""
         for msg in messages:
@@ -55,8 +60,7 @@ class StepAudio:
                 if content["type"] == "text":
                     text_with_audio += f"<|BOT|>{role}\n{content['text']}<|EOT|>"
                 elif content["type"] == "audio":
-                    audio_wav, sr = load_audio(content["audio"])
-                    audio_tokens = self.encoder(audio_wav, sr)
+                    audio_tokens = self.encode_audio(content["audio"])
                     text_with_audio += f"<|BOT|>{role}\n{audio_tokens}<|EOT|>"
             elif content is None:
                 text_with_audio += f"<|BOT|>{role}\n"
