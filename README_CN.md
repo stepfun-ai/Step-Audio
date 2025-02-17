@@ -603,6 +603,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 |human：唱一段rap|[google drive](https://drive.google.com/file/d/1MjKUkkzcGzVcNVXRr_Ya5y2H44K_lybH/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
 ## 8. 引文
+论文已提交至arXiv，目前正在审核中。在审核完成后会提供官方预印本链接和引用。
 ```
 @misc{stepaudiotechnicalreport,
       title={Step-Audio: Harmonized Understanding and Generation in Intelligent Speech Interaction},

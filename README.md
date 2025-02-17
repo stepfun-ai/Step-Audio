@@ -591,6 +591,7 @@ At the same time, we provide a trial Hugging Face demo.
 |human：唱一段rap|[google drive](https://drive.google.com/file/d/1MjKUkkzcGzVcNVXRr_Ya5y2H44K_lybH/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
 ## 8. Citation
+Our manuscript has been submitted to arXiv and is currently under review. The official preprint link and citation will be provided once the review is complete.
 ```
 @misc{stepaudiotechnicalreport,
       title={Step-Audio: Harmonized Understanding and Generation in Intelligent Speech Interaction},
