@@ -602,11 +602,6 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 
 <img src="./assets/yuewen.jpeg" width="200" alt="QR code">
 
-At the same time, we provide a trial Hugging Face demo.
-| Models   | Links   |
-|-------|-------|
-| Step-Audio | [🤗huggingface](https://huggingface.co/spaces/stepfun-ai/Step-Audio)|
-
 ## 7. Examples
 ### Clone audio
 | role   | prompt wav | clone wav |

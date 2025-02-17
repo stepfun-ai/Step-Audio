@@ -612,12 +612,6 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 
 <img src="./assets/yuewen.jpeg" width="200" alt="QR code">
 
-同时，我们提供了一个试用的 Hugging Face 演示。
-| 模型   | 链接   |
-|-------|-------|
-| Step-Audio | [🤗huggingface](https://huggingface.co/spaces/stepfun-ai/Step-Audio)|
-| Step-Audio-Chat |[🤗huggingface](https://huggingface.co/spaces/stepfun-ai/step1o-audio-chat)|
-
 ## 7. 样例
 ### 音频克隆
 | role   | prompt wav | clone wav |
