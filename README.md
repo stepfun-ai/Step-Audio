@@ -549,6 +549,53 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
 
 *TriviaQA dataset marked with "\*" indicates results are for reference only.*
 
+#### 5.3.3 Audio instruction following 
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2">Category</th>
+            <th colspan="2" style="text-align:center">Instruction Following</th>
+            <th colspan="2" style="text-align:center">Audio Quality</th>
+        </tr>
+        <tr>
+            <th style="text-align:center">GLM-4-Voice</th>
+            <th style="text-align:center">Step-Audio</th>
+            <th style="text-align:center">GLM-4-Voice</th>
+            <th style="text-align:center">Step-Audio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Languages</td>
+            <td style="text-align:center">1.9</td>
+            <td style="text-align:center">3.8</td>
+            <td style="text-align:center">2.9</td>
+            <td style="text-align:center">3.3</td>
+        </tr>
+        <tr>
+            <td>Role-playing</td>
+            <td style="text-align:center">3.8</td>
+            <td style="text-align:center">4.2</td>
+            <td style="text-align:center">3.2</td>
+            <td style="text-align:center">3.6</td>
+        </tr>
+        <tr>
+            <td>Singing / RAP</td>
+            <td style="text-align:center">2.1</td>
+            <td style="text-align:center">2.4</td>
+            <td style="text-align:center">2.4</td>
+            <td style="text-align:center">4</td>
+        </tr>
+        <tr>
+            <td>Voice Control</td>
+            <td style="text-align:center">3.6</td>
+            <td style="text-align:center">4.4</td>
+            <td style="text-align:center">3.3</td>
+            <td style="text-align:center">4.1</td>
+        </tr>
+    </tbody>
+</table>
+
 ## 6. Online Engine
 The online version of Step-Audio can be accessed from app version of [跃问](https://yuewen.cn), where some impressive examples can be found as well.
 

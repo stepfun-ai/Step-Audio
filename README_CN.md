@@ -559,6 +559,53 @@ python app.py --model-path where_you_download_dir
 
 * 在 TriviaQA 数据集中，带有“\*”标记的结果仅用于参考。
 
+#### 5.3.3 语音指令遵循
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2">Category</th>
+            <th colspan="2" style="text-align:center">Instruction Following</th>
+            <th colspan="2" style="text-align:center">Audio Quality</th>
+        </tr>
+        <tr>
+            <th style="text-align:center">GLM-4-Voice</th>
+            <th style="text-align:center">Step-Audio</th>
+            <th style="text-align:center">GLM-4-Voice</th>
+            <th style="text-align:center">Step-Audio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Languages</td>
+            <td style="text-align:center">1.9</td>
+            <td style="text-align:center">3.8</td>
+            <td style="text-align:center">2.9</td>
+            <td style="text-align:center">3.3</td>
+        </tr>
+        <tr>
+            <td>Role-playing</td>
+            <td style="text-align:center">3.8</td>
+            <td style="text-align:center">4.2</td>
+            <td style="text-align:center">3.2</td>
+            <td style="text-align:center">3.6</td>
+        </tr>
+        <tr>
+            <td>Singing / RAP</td>
+            <td style="text-align:center">2.1</td>
+            <td style="text-align:center">2.4</td>
+            <td style="text-align:center">2.4</td>
+            <td style="text-align:center">4</td>
+        </tr>
+        <tr>
+            <td>Voice Control</td>
+            <td style="text-align:center">3.6</td>
+            <td style="text-align:center">4.4</td>
+            <td style="text-align:center">3.3</td>
+            <td style="text-align:center">4.1</td>
+        </tr>
+    </tbody>
+</table>
+
 ## 6. 在线引擎
 Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程序访问，其中还可以找到一些惊喜的示例。
 
