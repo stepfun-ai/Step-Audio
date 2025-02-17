@@ -173,7 +173,7 @@ python app.py --model-path where_you_download_dir
 
 ## 5. 基准
 
-### 5.1 语音识别结果对比
+### 5.1 语音识别
 
 <table>
     <thead>
@@ -284,7 +284,7 @@ python app.py --model-path where_you_download_dir
 </table>
 
 ### 5.2 语音合成
-#### 5.2.1 GLM-4-Voice与MinMo内容一致性（CER/WER）性能对比。
+#### 5.2.1 与GLM-4-Voice与MinMo在内容一致性（CER/WER）上的性能对比。
 
 <table>
     <thead>
@@ -435,8 +435,8 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-### 5.3 AQTA Chat
-我们发布全新基准测试StepEval-Audio-360（https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360），该数据集包含100个源自真实用户的多轮中文提示，旨在系统性评估生成式语音交互系统在以下12个维度的表现：语音指令遵循、语音理解、逻辑推理、角色扮演、创作能力、唱歌、语言能力、语音情绪控制、游戏。
+### 5.3 语音对话
+我们发布全新基准测试[StepEval-Audio-360](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360)，该数据集包含100个源自真实用户的多轮中文提示，旨在系统性评估生成式语音交互系统在以下维度的表现：语音指令遵循、语音理解、逻辑推理、角色扮演、创作能力、唱歌、语言能力、语音情绪控制、游戏。
 #### 5.3.1 StepEval-Audio-360
 
 #### 大语言模型评估指标(GPT-4o)
@@ -555,9 +555,9 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-*注意：在 TriviaQA 数据集上，带有“*”标记的结果仅供参考。
+* 注意：在 TriviaQA 数据集上，带有“\*”标记的结果仅供参考。
 
-*在 TriviaQA 数据集中，带有“*”标记的结果仅用于参考。
+* 在 TriviaQA 数据集中，带有“\*”标记的结果仅用于参考。
 
 ## 6. 在线引擎
 Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程序访问，其中还可以找到一些惊喜的示例。
