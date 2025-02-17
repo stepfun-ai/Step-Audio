@@ -630,7 +630,7 @@ At the same time, we provide a trial Hugging Face demo.
 | prompt | response |
 |:-------:|:-------:|
 |human: What did the speaker mean when they said, it's raining cats and dogs?<br>assistant: When they say "It's raining cats and dogs," it just means it's raining really hard. The speaker isn't literally saying cats and dogs are falling from the sky! It's just a fun way to describe heavy rain.|[google drive](https://drive.google.com/file/d/1LEIvdR5ANMzWX8GOTqUPTNrynNS1xx--/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual2.wav)|
-|human: こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[google drive]()<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual1.wav)|
+|human: こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[google drive](https://drive.google.com/file/d/1MjKUkkzcGzVcNVXRr_Ya5y2H44K_lybH/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual1.wav)|
 
 ### Rap & Vocal
 | prompt | response |
