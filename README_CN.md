@@ -1,5 +1,5 @@
 <p align="left">
-        <a href="README_CN.md">中文</a> &nbsp｜ &nbsp English&nbsp&nbsp
+        中文</a>&nbsp ｜ &nbsp<a href="README.md">English</a>
 </p>
 <br><br>
 
@@ -23,89 +23,99 @@
 </div>
 
 ## 🔥🔥🔥 News!!
-* Feb 17, 2025: 👋 We release the inference code and model weights of [Step-Audio-Chat](https://huggingface.co/stepfun-ai/Step-Audio-Chat), [Step-Audio-TTS-3B](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) and [Step-Audio-Tokenizer](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer)
-* Feb 17, 2025: 👋 We release the multi-turn audio benchmark of [StepEval-Audio-360](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360).
+* 2025年2月12日: 👋 发布推理代码和模型权重，其中包含[Step-Audio-Chat](https://huggingface.co/stepfun-ai/Step-Audio-Chat), [Step-Audio-TTS-3B](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) 和 [Step-Audio-Tokenizer](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360)。
+* 2025年2月12日: 👋 发布多轮音频交互基准测试[StepEval-Audio-360](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360)。
 
 
 ## Table of Contents
 
-1. [Introduction](#1-introduction)
-2. [Model Summary](#2-model-summary)
-3. [Model Download](#3-model-download)
-4. [Model Usage](#4-model-usage)
-5. [Benchmark](#5-benchmark)
-6. [Online Engine](#6-online-engine)
-7. [Citation](#7-citation)
+1. [介绍](#1-介绍)
+2. [模型组成](#2-模型组成)
+3. [模型下载](#3-模型下载)
+4. [模型使用](#4-模型使用)
+5. [基准](#5-基准)
+6. [在线引擎](#6-在线引擎)
+7. [样例](#7-样例)
+8. [引文](#8-引文)
 
-## 1. Introduction
+## 1. 介绍
 
-Step-Audio is the first production-ready open-source framework for intelligent speech interaction that harmonizes comprehension and generation, supporting multilingual conversations (e.g., Chinese, English, Japanese), emotional tones (e.g., joy/sadness), regional dialects (e.g., Cantonese/Sichuanese), adjustable speech rates, and prosodic styles (e.g., rap). Step-Audio demonstrates four key technical innovations:
+Step-Audio 是业界首个集语音理解与生成控制一体化的产品级开源实时语音对话系统，支持多语言对话（如 中文，英文，日语），语音情感（如 开心，悲伤），方言（如 粤语，四川话），可控制语速及韵律风格，支持RAP和哼唱等。其核心技术突破体现在以下四大技术亮点：
 
-- **130B-Parameter Multimodal Model**: A single unified model integrating comprehension and generation capabilities, performing speech recognition, semantic understanding, dialogue, voice cloning, and speech synthesis. We have made the 130B Step-Audio-Chat variant open source.
+- **1300亿多模态模型**: 单模型能实现理解生成一体化完成语音识别、语义理解、对话、语音克隆、语音生成等功能，开源千亿参数多模态模型 Step-Audio-Chat。
+ 
+- **高效数据生成链路**: 基于130B 突破传统 TTS 对人工采集数据的依赖，生成高质量的合成音频数据，并同步开源首个基于大规模合成数据训练，支持 RAP 和哼唱的指令加强版语音合成模型 Step-Audio-TTS-3B 。
     
-- **Generative Data Engine**: Eliminates traditional TTS's reliance on manual data collection by generating high-quality audio through our 130B-parameter multimodal model. Leverages this data to train and publicly release a resource-efficient Step-Audio-TTS-3B model with enhanced instruction-following capabilities for controllable speech synthesis.
+- **精细语音控制**: 支持多种情绪（如生气，高兴，悲伤）、方言（包括粤语、四川话等）和唱歌（包括 RAP、干声哼唱）的精准调控，满足用户对多样化语音生成的需求。
     
-- **Granular Voice Control**: Enables precise regulation through instruction-based control design, supporting multiple emotions (anger, joy, sadness), dialects (Cantonese, Sichuanese, etc.), and vocal styles (rap, a cappella humming) to meet diverse speech generation needs.
-    
-- **Enhanced Intelligence**: Improves agent performance in complex tasks through ToolCall mechanism integration and role-playing enhancements.
+- **扩展工具调用**: 通过 ToolCall 机制和角色扮演增强，进一步提升其在 Agents 和复杂任务中的表现。
 
-## 2. Model Summary
-In Step-Audio, audio streams are tokenized via a dual-codebook framework, combining parallel semantic (16.7Hz, 1024-entry codebook) and acoustic (25Hz, 4096-entry codebook) tokenizers with 2:3 temporal interleaving. A 130B-parameter LLM foundation (Step-1) is further enhanced via audio-contextualized continual pretraining and task-specific post-training, enabling robust cross-modal speech understanding. A hybrid speech decoder combining flow matching with neural vocoding, optimized for real-time waveform generation. A streaming-aware architecture featuring speculative response generation (40\% commit rate) and text-based context management (14:1 compression ratio) for efficient cross-modal alignment.
+## 2. 模型组成
+
+在Step-Audio系统中，音频流采用Linguistic tokenizer（码率16.7Hz，码本大小1024）与Semantice tokenizer（码率25Hz，码本大小4096）并行的双码本编码器方案，双码本在排列上使用了2:3时序交错策略。通过音频语境化持续预训练和任务定向微调强化了130B参数量的基础模型（Step-1），最终构建了强大的跨模态语音理解能力。为了实现实时音频生成，系统采用了混合语音解码器，结合流匹配（flow matching）与神经声码技术。
 ![Architecture](assets/architecture.png)
 
 ### 2.1 Tokenizer
 
-We implement a token-level interleaving approach to effectively integrate semantic tokenization and acoustic tokenization. The semantic tokenizer employs a codebook size of 1024, while the acoustic tokenizer utilizes a larger codebook size of 4096 to capture finer acoustic details. Given the differing token rates, we establish a temporal alignment ratio of 2:3, where every two semantic tokens are paired with three acoustic tokens.
+我们通过token级交错方法实现Linguistic token与Semantic token的有效整合。Linguistic tokenizer的码本大小是1024，码率16.7Hz；而Semantic tokenizer则使用4096的大容量码本来捕捉更精细的声学细节，码率25Hz。鉴于两者的码率差异，我们建立了2:3的时间对齐比例——每两个Linguistic token对应三个Linguistic token形成时序配对。
 
-### 2.2 Language Model
+### 2.2 语言模型
 
-To enhance Step-Audio’s ability to effectively process speech information and
-achieve accurate speech-text alignment, we conducted audio continual pretrain-ing based on Step-1, a 130-billion parameter pretrained text-based large language model (LLM). 
+为了提升Step-Audio有效处理语音信息的能力，并实现精准的语音-文本对齐，我们在Step-1（一个拥有1300亿参数的基于文本的大型语言模型LLM）的基础上进行了音频持续预训练。
 
-### 2.3 Speech Decoder
-The speech decoder in Step-Audio serves a critical function in converting discrete speech tokens, which contain both semantic and acoustic information, into continuous time-domain waveforms that represent natural speech. The decoder architecture incorporates a flow matching model and a mel-to-wave vocoder. To optimize the intelligibility and naturalness of the synthesized speech, the speech decoder is trained using a dual-code interleaving approach, ensuring seamless integration of semantic and acoustic features throughout the generation process.
+### 2.3 语音解码器
 
-### 2.4 Real-time Inference Pipeline
-To enable real-time interactions, we have designed an optimized inference pipeline. At its core, the Controller module manages state transitions, orchestrates speculative response generation, and ensures seamless coordination between critical subsystems. These subsystems include Voice Activity Detection (VAD) for detecting user speech, the Streaming Audio Tokenizer for processing audio in real-time, the Step-Audio language model and Speech Decoder for processing and generating responses, and the Context Manager for preserving conversational continuity.
+Step-Audio语音解码器主要是将包含语义和声学信息的离散标记信息转换成连续的语音信号。该解码器架构结合了一个30亿参数的语言模型、流匹配模型（flow matching model）和梅尔频谱到波形的声码器（mel-to-wave vocoder）。为优化合成语音的清晰度（intelligibility）和自然度（naturalness），语音解码器采用双码交错训练方法（dual-code interleaving），确保生成过程中语义与声学特征的无缝融合。
+
+### 2.4 实时推理管线
+为了实现实时的语音交互，我们对推理管线进行了一系列优化。其中最核心的是控制模块（Controller），该模块负责管理状态转换、协调响应生成，并确保关键子系统间的无缝协同。这些子系统包括：
+
+- **语音活动检测（VAD）**：实时检测用户语音起止
+
+- **流式音频分词器（Streaming Audio Tokenizer）**：实时音频流处理
+
+- **Step-Audio语言模型与语音解码器**：多模态回复生成
+
+- **上下文管理器（Context Manager）**：动态维护对话历史与状态
 ![Inference Pipeline](assets/pipeline.png)
 
-### 2.5 Post training details
-In the post-training phase, we conducted task-specific Supervised Fine-Tuning (SFT) for Automatic Speech Recognition (ASR) and Text-to-Speech (TTS). For Audio Input Text Output (AQTA) tasks, we implemented SFT using diversified high-quality datasets combined with Reinforcement Learning from Human Feedback (RLHF) to enhance response quality, enabling fine-grained control over emotional expression, speech speed, dialect, and prosody.
+### 2.5 后训练细节
+在后训练阶段，我们针对自动语音识别（ASR）与文本转语音（TTS）任务进行了专项监督微调（Supervised Fine-Tuning, SFT）。对于音频输入-文本输出（Audio Question Text Answer, AQTA）任务，我们采用多样化高质量数据集进行SFT，并采用了基于人类反馈的强化学习（RLHF）以提升响应质量，从而实现对情感表达、语速、方言及韵律的细粒度控制。
 ![RLHF](assets/rlhf.png)
 
 
-## 3. Model Download
+## 3. 模型下载
 ### 3.1 Huggingface
-| Models   | Links   |
+| 模型   | 链接   |
 |-------|-------|
 | Step-Audio-Tokenizer | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer) |
-| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Chat) |
-| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) |
+| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) |
+| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Chat) |
 
 ### 3.2 Modelscope
-| Models   | Links   |
+| 模型   | 链接   |
 |-------|-------|
 | Step-Audio-Tokenizer | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Tokenizer) |
-| Step-Audio-Chat | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Chat) |
-| Step-Audio-TTS-3B | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-TTS-3B) |
+| Step-Audio-Chat | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-TTS-3B) |
+| Step-Audio-TTS-3B | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Chat) |
 
-## 4. Model Usage
-### 📜 4.1  Requirements
-The following table shows the requirements for running Step-Audio model (batch size = 1):
+## 4. 模型使用
+### 📜 4.1  要求
+下表列出了运行Step-Audio模型（batch size=1）所需的配置要求:
 
-|     Model    |  Setting<br/>(sample frequency) | GPU Minimum Memory  |
+|     模型    |  Setting<br/>(采样率) | GPU最低显存  |
 |------------|--------------------------------|----------------|
 | Step-Audio-Tokenizer   |        41.6Hz          |       1.5GB        |
 | Step-Audio-Chat   |        41.6Hz          |       265GB        |
 | Step-Audio-TTS-3B   |        41.6Hz          |       8GB        |
 
-* An NVIDIA GPU with CUDA support is required. 
-  * The model is tested on a four A800 80G GPU.
-  * **Recommended**: We recommend using 4xA800/H800 GPU with 80GB memory for better generation quality.
-* Tested operating system: Linux
+* 需要支持CUDA的NVIDIA显卡. 
+  * 模型在4块显存为80GB的A800系列NVIDIA显卡上进行测试.
+  * **推荐**: 为确保最佳生成质量，建议使用4块显存为80GB的A800/H800系列NVIDIA显卡.
+* 测试采用的操作系统: Linux
 
-### 🔧 4.2 Dependencies and Installation
-- Python >= 3.10.0 (Recommend to use [Anaconda](https://www.anaconda.com/download/#linux) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
+### 🔧 4.2 依赖项与安装
+- Python >= 3.10.0 (推荐使用 [Anaconda](https://www.anaconda.com/download/#linux) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
 - [PyTorch >= 2.3-cu121](https://pytorch.org/)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads)
 
@@ -124,7 +134,7 @@ git clone https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B
 
 ```
 
-After downloading the models, where_you_download_dir should have the following structure:
+下载模型后，where_you_download_dir应包含以下结构：
 ```
 where_you_download_dir
 ├── Step-Audio-Tokenizer
@@ -132,18 +142,19 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
-###  🚀 4.3 Inference Scripts
-#### Offline inference
-Inference with e2e audio/text input and audio/text output.
+###  🚀 4.3 推理脚本
+#### 离线推理
+支持端到端音频/文本输入与音频/文本输出的推理流程。
 ```bash
 python offline_inference.py --model-path where_you_download_dir
 ```
-#### tts inference
-Inference tts with default speaker or clone with a new speaker
+
+#### tts推理
+使用默认音色进行推理tts或使用新音色进行克隆
 ```bash
 python tts_inference.py --model-path where_you_download_dir --output-path where_you_save_audio_dir --synthesis-type use_tts_or_clone
 ```
-A speaker information dict is required for clone mode, formatted as follows:
+克隆模式需要音色信息字典，格式如下：
 ```bash
 {
     "speaker": "speaker id",
@@ -152,24 +163,24 @@ A speaker information dict is required for clone mode, formatted as follows:
 }
 ```
 
-#### Launch Web Demo
-Start a local server for online inference.
-Assume you have 4 GPUs available and have already downloaded all the models.
+#### 启动网页演示
+启动本地服务器以进行在线推理。
+假设您已配备4块GPU且已完成所有模型的下载。
 
 ```bash
 python app.py --model-path where_you_download_dir
 ```
 
-## 5. Benchmark
+## 5. 基准
 
-### 5.1 ASR result comparison
+### 5.1 语音识别结果对比
 
 <table>
     <thead>
         <tr>
             <th style="text-align:center"></th>
-            <th colspan="4" style="text-align:center">Hidden Feature Modeling</th>
-            <th colspan="5" style="text-align:center">Discrete Audio Token Modeling</th>
+            <th colspan="4" style="text-align:center">隐层特征建模</th>
+            <th colspan="5" style="text-align:center">离散标记建模</th>
         </tr>
         <tr>
             <th style="text-align:center"></th>
@@ -272,8 +283,8 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-### 5.2 TTS
-#### 5.2.1 Performance comparison of content consistency (CER/WER) between GLM-4-Voice and MinMo.
+### 5.2 语音合成
+#### 5.2.1 GLM-4-Voice与MinMo内容一致性（CER/WER）性能对比。
 
 <table>
     <thead>
@@ -306,8 +317,8 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-#### 5.2.2 Results of TTS Models on SEED Test Sets.
-* StepAudio-TTS-3B-Single denotes dual-codebook backbone with single-codebook vocoder*
+#### 5.2.2 语音合成模型在SEED测试集上的性能结果。
+* StepAudio-TTS-3B-Single 表示采用双码本主干网络与单码本声码器的组合架构。
 
 <table>
     <thead>
@@ -383,7 +394,7 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-#### 5.2.3 Performance comparison of Dual-codebook Resynthesis with Cosyvoice.
+#### 5.2.3 双码本重合成与CosyVoice性能对比。
 
 <table>
     <thead>
@@ -425,11 +436,10 @@ python app.py --model-path where_you_download_dir
 </table>
 
 ### 5.3 AQTA Chat
-We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360) as a new benchmark, which consists of 100 multi-turn Chinese prompts sourced from real users and is designed to evaluate the quality of generated response across the following dimensions: Voice Instruction Following, Voice Understanding, Logical Reasoning, Role-playing, Creativity, Sing, Language Ability, Speech Emotion Control, Gaming.
-
+我们发布全新基准测试StepEval-Audio-360（https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360），该数据集包含100个源自真实用户的多轮中文提示，旨在系统性评估生成式语音交互系统在以下12个维度的表现：语音指令遵循、语音理解、逻辑推理、角色扮演、创作能力、唱歌、语言能力、语音情绪控制、游戏。
 #### 5.3.1 StepEval-Audio-360
 
-#### LLM judge metrics(GPT-4o)
+#### 大语言模型评估指标(GPT-4o)
 <table>
     <thead>
         <tr>
@@ -467,12 +477,12 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
     </tbody>
 </table>
 
-*Note: Moshi are marked with "\*" and should be considered for reference only. 
+*注意：带有“*”标记的内容仅供参考。 
 
-#### Radar Chart(Human Evaluation)
+#### 雷达图(人工测评)
 <img src="./assets/stepeval_radar_chart.png" width="600" alt="QR code">
 
-#### 5.3.2 Public Test Set
+#### 5.3.2 公开测试集
 
 <table>
     <thead>
@@ -545,41 +555,43 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
     </tbody>
 </table>
 
-*Note: Results marked with "\*" on TriviaQA dataset are considered for reference only.*
+*注意：在 TriviaQA 数据集上，带有“*”标记的结果仅供参考。
 
-*TriviaQA dataset marked with "\*" indicates results are for reference only.*
+*在 TriviaQA 数据集中，带有“*”标记的结果仅用于参考。
 
-## 6. Online Engine
-The online version of Step-Audio can be accessed from app version of [跃问](https://yuewen.cn), where some impressive examples can be found as well.
+## 6. 在线引擎
+Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程序访问，其中还可以找到一些惊喜的示例。
 
 <img src="./assets/yuewen.jpeg" width="200" alt="QR code">
 
-At the same time, we provide a trial Hugging Face demo.
-| Models   | Links   |
+同时，我们提供了一个试用的 Hugging Face 演示。
+| 模型   | 链接   |
 |-------|-------|
 | Step-Audio | [🤗huggingface](https://huggingface.co/spaces/stepfun-ai/Step-Audio)|
+| Step-Audio-Chat |[🤗huggingface](https://huggingface.co/spaces/stepfun-ai/step1o-audio-chat)|
 
-## 7. Examples
-### Clone audio
+## 7. 样例
+### 音频克隆
 | role   | prompt wav | clone wav |
 |:-------:|:-------:|:-------:|
 |赵本山| [google drive](https://drive.google.com/file/d/1AzAvVx5F7Frl1XPieEIdYhzbd3EcWess/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_zhaobenshan.mp3)|[google drive](https://drive.google.com/file/d/108fYHj2ghK_BQyWsZJ35ctyuAv0JzHIu/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_zhaobenshan.mp3)| 
 |李雪琴| [google drive](https://drive.google.com/file/d/15SkZ29hksELYi1NDOxYOPu-kRTLSyke_/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_lixueqin.wav)|[google drive](https://drive.google.com/file/d/11Le4qMqL2DmWpf7RFRpKUXERIR9TtKC0/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_lixueqin.mp3)| 
 
-### Speed control
+### 速度控制
 | prompt | response |
 |:-------:|:-------:|
 |human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？|[google drive](https://drive.google.com/file/d/1mAH-NRrOVZo4tv6gdAZkyJg8kRuTNNGC/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/speed_control1.wav)|
 |human: 说一个绕口令<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 哎，你能把这个绕口令说的再快一点吗？<br>assistant: 吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮<br>human: 呃，你再用非常非常慢的速度说一遍的。|[google drive](https://drive.google.com/file/d/1FhRnKo8uGrtO-cWg4qkrg8iDoNRbtqSX/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/speed_control2.wav)|
 
-### High EQ(emotional control & tone control)
+### 高情商(情感控制 & 语调控制)
 | prompt | response |
 |:-------:|:-------:|
 |human: 你这语气又不撒娇又不卖萌的，要不你撒个娇卖个萌吧。|[google drive](https://drive.google.com/file/d/19IROE6_6h2UQVNniCmDTnrhxKRMOFHq3/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/tone_control.wav)|
 |human: 怎么办？我感觉我的人生很失败。|[google drive](https://drive.google.com/file/d/1JlLbOlzmdrokVdxtwy1S8eeWqsZR2Vmc/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/emotional_control1.wav)|
 |human: 小跃。你真的是。特别厉害。|[google drive](https://drive.google.com/file/d/19ga1RpguDP5r0Xfl1r5GY1J-kzbmHvJb/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/emotional_control2.wav)|
 
-### Multilingual (e.g., Chinese, English, Japanese)
+
+### 多语言 (e.g., 中文, 英文, 日语)
 | prompt | response |
 |:-------:|:-------:|
 |human: What did the speaker mean when they said, it's raining cats and dogs?<br>assistant: When they say "It's raining cats and dogs," it just means it's raining really hard. The speaker isn't literally saying cats and dogs are falling from the sky! It's just a fun way to describe heavy rain.|[google drive](https://drive.google.com/file/d/1LEIvdR5ANMzWX8GOTqUPTNrynNS1xx--/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual2.mp3)|
@@ -590,7 +602,7 @@ At the same time, we provide a trial Hugging Face demo.
 |:-------:|:-------:|
 |human：唱一段rap|[google drive](https://drive.google.com/file/d/1MjKUkkzcGzVcNVXRr_Ya5y2H44K_lybH/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
-## 8. Citation
+## 8. 引文
 ```
 @misc{stepaudiotechnicalreport,
       title={Step-Audio: Harmonized Understanding and Generation in Intelligent Speech Interaction}, 
