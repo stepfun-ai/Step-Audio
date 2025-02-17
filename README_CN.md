@@ -149,8 +149,8 @@ where_you_download_dir
 python offline_inference.py --model-path where_you_download_dir
 ```
 
-#### tts推理
-使用默认音色进行推理tts或使用新音色进行克隆
+#### 语音合成推理
+使用默认音色进行语音合成推理或使用新音色进行克隆
 ```bash
 python tts_inference.py --model-path where_you_download_dir --output-path where_you_save_audio_dir --synthesis-type use_tts_or_clone
 ```
@@ -477,7 +477,7 @@ python app.py --model-path where_you_download_dir
     </tbody>
 </table>
 
-*注意：带有“*”标记的内容仅供参考。
+*注意：带有“\*”标记的内容仅供参考。
 
 #### 雷达图(人工测评)
 <img src="./assets/stepeval_radar_chart.png" width="600" alt="QR code">
@@ -595,7 +595,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 | prompt | response |
 |:-------:|:-------:|
 |human: What did the speaker mean when they said, it's raining cats and dogs?<br>assistant: When they say "It's raining cats and dogs," it just means it's raining really hard. The speaker isn't literally saying cats and dogs are falling from the sky! It's just a fun way to describe heavy rain.|[google drive](https://drive.google.com/file/d/1LEIvdR5ANMzWX8GOTqUPTNrynNS1xx--/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual2.mp3)|
-|human: こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[google drive]()<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual1.wav)|
+|human: こんにちは。（你好）<br>assistant：こんにちは！何か手伝いましょうか？（您好！我可以帮你做点什么吗？）|[google drive](https://drive.google.com/file/d/1MjKUkkzcGzVcNVXRr_Ya5y2H44K_lybH/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/multilingual1.wav)|
 
 ### Rap & Vocal
 | prompt | response |
