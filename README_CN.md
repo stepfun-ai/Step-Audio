@@ -621,7 +621,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 ### 音频克隆
 | role   | prompt wav | clone wav |
 |:-------:|:-------:|:-------:|
-|赵本山| [google drive](https://drive.google.com/file/d/1AzAvVx5F7Frl1XPieEIdYhzbd3EcWess/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_zhaobenshan.mp3)|[google drive](https://drive.google.com/file/d/108fYHj2ghK_BQyWsZJ35ctyuAv0JzHIu/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_zhaobenshan.mp3)|
+|赵本山| [google drive](https://drive.google.com/file/d/1AzAvVx5F7Frl1XPieEIdYhzbd3EcWess/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_zhaobenshan.wav)|[google drive](https://drive.google.com/file/d/108fYHj2ghK_BQyWsZJ35ctyuAv0JzHIu/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_zhaobenshan.mp3)|
 |李雪琴| [google drive](https://drive.google.com/file/d/15SkZ29hksELYi1NDOxYOPu-kRTLSyke_/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_lixueqin.wav)|[google drive](https://drive.google.com/file/d/11Le4qMqL2DmWpf7RFRpKUXERIR9TtKC0/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_lixueqin.mp3)|
 
 ### 速度控制

@@ -138,7 +138,7 @@ Inference with e2e audio/text input and audio/text output.
 ```bash
 python offline_inference.py --model-path where_you_download_dir
 ```
-#### tts inference
+#### TTS inference
 Inference tts with default speaker or clone with a new speaker
 ```bash
 python tts_inference.py --model-path where_you_download_dir --output-path where_you_save_audio_dir --synthesis-type use_tts_or_clone
@@ -610,7 +610,7 @@ At the same time, we provide a trial Hugging Face demo.
 ### Clone audio
 | role   | prompt wav | clone wav |
 |:-------:|:-------:|:-------:|
-|赵本山| [google drive](https://drive.google.com/file/d/1AzAvVx5F7Frl1XPieEIdYhzbd3EcWess/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_zhaobenshan.mp3)|[google drive](https://drive.google.com/file/d/108fYHj2ghK_BQyWsZJ35ctyuAv0JzHIu/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_zhaobenshan.mp3)|
+|赵本山| [google drive](https://drive.google.com/file/d/1AzAvVx5F7Frl1XPieEIdYhzbd3EcWess/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_zhaobenshan.wav)|[google drive](https://drive.google.com/file/d/108fYHj2ghK_BQyWsZJ35ctyuAv0JzHIu/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_zhaobenshan.mp3)|
 |李雪琴| [google drive](https://drive.google.com/file/d/15SkZ29hksELYi1NDOxYOPu-kRTLSyke_/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/prompt_wav_lixueqin.wav)|[google drive](https://drive.google.com/file/d/11Le4qMqL2DmWpf7RFRpKUXERIR9TtKC0/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/clone_wav_lixueqin.mp3)|
 
 ### Speed control
