@@ -653,7 +653,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 [论文](https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf)已提交至arXiv，目前正在审核中。在审核完成后会提供官方预印本链接和论文引用。
 ```
 @misc{stepaudiotechnicalreport,
-      title={Step-Audio: Harmonized Understanding and Generation in Intelligent Speech Interaction},
+      title={Step-Audio: Unified Understanding and Generation in Intelligent Speech Interaction},
       author={Step-Audio Team},
       year={2025},
 }

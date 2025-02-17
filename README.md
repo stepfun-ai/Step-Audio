@@ -641,7 +641,7 @@ At the same time, we provide a trial Hugging Face demo.
 Our [manuscript](https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf) has been submitted to arXiv and is currently under review. The official preprint link and citation will be provided once the review is complete.
 ```
 @misc{stepaudiotechnicalreport,
-      title={Step-Audio: Harmonized Understanding and Generation in Intelligent Speech Interaction},
+      title={Step-Audio: Unified Understanding and Generation in Intelligent Speech Interaction},
       author={Step-Audio Team},
       year={2025},
 }
