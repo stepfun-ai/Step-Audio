@@ -441,38 +441,39 @@ python app.py --model-path where_you_download_dir
 
 #### 大语言模型评估指标(GPT-4o)
 <table>
+    <caption>Comparison of fundamental capabilities of voice chat on the StepEval-Audio-360.</caption>
     <thead>
         <tr>
             <th>Model</th>
-            <th style="text-align:center">factuality (%) &uarr;</th>
-            <th style="text-align:center">relevance (%) &uarr;</th>
-            <th style="text-align:center">chat score &uarr;</th>
+            <th style="text-align:center">Factuality (% &uarr;)</th>
+            <th style="text-align:center">Relevance (% &uarr;)</th>
+            <th style="text-align:center">Chat Score &uarr;</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>GLM4-Voice</td>
-            <td style="text-align:center">44.0</td>
-            <td style="text-align:center">59.0</td>
-            <td style="text-align:center">3.27</td>
+            <td style="text-align:center">54.7</td>
+            <td style="text-align:center">66.4</td>
+            <td style="text-align:center">3.49</td>
         </tr>
         <tr>
             <td>Qwen2-Audio</td>
-            <td style="text-align:center">25.0</td>
-            <td style="text-align:center">28.0</td>
-            <td style="text-align:center">2.23</td>
+            <td style="text-align:center">22.6</td>
+            <td style="text-align:center">26.3</td>
+            <td style="text-align:center">2.27</td>
         </tr>
         <tr>
-            <td>Moshi*</td>
+            <td>Moshi<sup>*</sup></td>
             <td style="text-align:center">1.0</td>
             <td style="text-align:center">0</td>
             <td style="text-align:center">1.49</td>
         </tr>
         <tr>
             <td><strong>Step-Audio-Chat</strong></td>
-            <td style="text-align:center"><strong>63.0</strong></td>
-            <td style="text-align:center"><strong>73.0</strong></td>
-            <td style="text-align:center"><strong>3.91</strong></td>
+            <td style="text-align:center"><strong>66.4</strong></td>
+            <td style="text-align:center"><strong>75.2</strong></td>
+            <td style="text-align:center"><strong>4.11</strong></td>
         </tr>
     </tbody>
 </table>
