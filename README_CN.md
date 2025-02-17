@@ -22,7 +22,7 @@
 </div>
 
 ## 🔥🔥🔥 News!!
-* 2025年2月17日: 👋 发布推理代码和模型权重，其中包含[Step-Audio-Chat](https://huggingface.co/stepfun-ai/Step-Audio-Chat), [Step-Audio-TTS-3B](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) 和 [Step-Audio-Tokenizer](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360)。
+* 2025年2月17日: 👋 发布推理代码和模型权重，其中包含[Step-Audio-Chat](https://huggingface.co/stepfun-ai/Step-Audio-Chat), [Step-Audio-TTS-3B](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) 和 [Step-Audio-Tokenizer](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer)。
 * 2025年2月17日: 👋 发布多轮音频交互基准测试[StepEval-Audio-360](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360)。
 * 2025年2月17日: 👋 发布了技术报告[Step-Audio-Report](./assets/Step-Audio.pdf)。
 
@@ -88,15 +88,15 @@ Step-Audio语音解码器主要是将包含语义和声学信息的离散标记�
 | 模型   | 链接   |
 |-------|-------|
 | Step-Audio-Tokenizer | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer) |
-| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) |
-| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Chat) |
+| Step-Audio-Chat | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-Chat) |
+| Step-Audio-TTS-3B | [🤗huggingface](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B) |
 
 ### 3.2 Modelscope
 | 模型   | 链接   |
 |-------|-------|
 | Step-Audio-Tokenizer | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Tokenizer) |
-| Step-Audio-Chat | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-TTS-3B) |
-| Step-Audio-TTS-3B | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Chat) |
+| Step-Audio-Chat | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-Chat) |
+| Step-Audio-TTS-3B | [modelscope](https://modelscope.cn/models/stepfun-ai/Step-Audio-TTS-3B) |
 
 ## 4. 模型使用
 ### 📜 4.1  要求
