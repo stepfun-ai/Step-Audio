@@ -8,7 +8,7 @@
   <img src="assets/logo.png"  height=100>
 </p>
 <div align="center">
-  <a href=""><img src="https://img.shields.io/static/v1?label=Tech Report&message=Arxiv&color=red"></a> &ensp;
+  <a href="https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf"><img src="https://img.shields.io/static/v1?label=Tech Report&message=Arxiv&color=red"></a> &ensp;
   <a href="https://x.com/StepFun_ai"><img src="https://img.shields.io/static/v1?label=X.com&message=Web&color=blue"></a> &ensp;
 </div>
 
