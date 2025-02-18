@@ -424,7 +424,7 @@ python app.py --model-path where_you_download_dir
 </table>
 
 ### 5.3 AQTA Chat
-We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360) as a new benchmark, which consists of 100 multi-turn Chinese prompts sourced from real users and is designed to evaluate the quality of generated response across the following dimensions: Voice Instruction Following, Voice Understanding, Logical Reasoning, Role-playing, Creativity, Sing, Language Ability, Speech Emotion Control, Gaming.
+We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/StepEval-Audio-360) as a new benchmark, which consists of 137 multi-turn Chinese prompts sourced from real users and is designed to evaluate the quality of generated response across the following dimensions: Voice Instruction Following, Voice Understanding, Logical Reasoning, Role-playing, Creativity, Sing, Language Ability, Speech Emotion Control, Gaming.
 
 #### 5.3.1 StepEval-Audio-360
 
@@ -467,7 +467,7 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
     </tbody>
 </table>
 
-*Note: Moshi are marked with "\*" and should be considered for reference only.
+* Note: Moshi are marked with "\*" and should be considered for reference only.
 
 #### Radar Chart(Human Evaluation)
 <img src="./assets/stepeval_radar_chart.png" width="600" alt="QR code">
@@ -545,9 +545,7 @@ We release [**StepEval-Audio-360**](https://huggingface.co/datasets/stepfun-ai/S
     </tbody>
 </table>
 
-*Note: Results marked with "\*" on TriviaQA dataset are considered for reference only.*
-
-*TriviaQA dataset marked with "\*" indicates results are for reference only.*
+* Note: Results marked with "\*" on TriviaQA dataset are considered for reference only.*
 
 #### 5.3.3 Audio instruction following
 <table>
