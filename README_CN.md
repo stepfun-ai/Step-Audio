@@ -667,3 +667,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
       url={https://arxiv.org/abs/2502.11946}, 
 }
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=stepfun-ai/Step-Audio&type=Date)](https://star-history.com/#stepfun-ai/Step-Audio&Date)
