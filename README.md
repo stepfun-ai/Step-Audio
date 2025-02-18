@@ -159,6 +159,19 @@ Assume you have 4 GPUs available and have already downloaded all the models.
 python app.py --model-path where_you_download_dir
 ```
 
+#### Inference Chat Model with vLLM (recommended)
+Step-Audio-Chat is a 130B LLM Model, it is recommended to use vLLM to inference with tensor parallelism.
+
+Currently, the official vLLM does not support the Step 1 model. You can temporarily use our [development branch](https://github.com/Oliver-ss/vllm/tree/add-step1-model) for local installation.
+
+**Because our attention mechanism is a variant of ALIBI, the official flash attention library is not compatible. We have provided a custom flash attention library in the [Step-Audio-Chat](https://huggingface.co/stepfun-ai/Step-Audio-Chat/tree/main/lib) repository. Make sure export the custom flash attention library to the environment variable before running the model.**
+
+```bash
+export OPTIMUS_LIB_PATH=where_you_download_dir/Step-Audio-Chat/lib
+
+vllm serve where_you_download_dir/Step-Audio-Chat --dtype auto -tp $tp --served-model-name step_chat_audio --trust-remote-code
+```
+
 ## 5. Benchmark
 
 ### 5.1 ASR result comparison
