@@ -643,7 +643,20 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 |:-------:|:-------:|
 |Human: 唱一段rap|[google drive](https://drive.google.com/file/d/1F8CKmVbGZ7X7d1IkQPlmndSHeG40AXha/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
-## 8. 引用
+## 8. 致谢
+
+本项目的部分代码来自：
+* [CosyVoice](GitHub - FunAudioLLM/CosyVoice: Multi-lingual large voice generation model, providing inference, tra)
+* [transformers](GitHub - huggingface/transformers: 🤗 Transformers: State-of-the-art Machine Learning for Pytorch, Te)
+* [FunASR](GitHub - modelscope/FunASR: A Fundamental End-to-End Speech Recognition Toolkit and Open Source SOTA)
+
+## 9. 协议
+
++ Step-Audio 相关模型的权重使用协议请分别需要按照[1](https://huggingface.co/stepfun-ai/Step-Audio-Chat/tree/main)。[2](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer/tree/main)[3](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B/tree/main)遵守
+
++ 本开源仓库的代码则遵循 [Apache 2.0](LICENSE) 协议。
+
+## 10. 引用
 [论文](https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf)已提交至arXiv，目前正在审核中。在审核完成后会提供官方预印本链接和论文引用。
 ```
 @misc{stepaudiotechnicalreport,

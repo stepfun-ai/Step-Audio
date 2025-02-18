@@ -632,13 +632,20 @@ The online version of Step-Audio can be accessed from app version of [跃问](ht
 |:-------:|:-------:|
 |Human: 唱一段rap|[google drive](https://drive.google.com/file/d/1F8CKmVbGZ7X7d1IkQPlmndSHeG40AXha/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
-## 9. Acknowledgements
-We reused code from the following projects:
-* [CosyVoice](https://github.com/FunAudioLLM/CosyVoice)
-* [FunASR](https://github.com/modelscope/FunASR)
-* [transformers](https://github.com/huggingface/transformers)
+## 8. Acknowledgements
 
-## 8. Citation
+Part of the code for this project comes from:
+* [CosyVoice](GitHub - FunAudioLLM/CosyVoice: Multi-lingual large voice generation model, providing inference, tra)
+* [transformers](GitHub - huggingface/transformers: 🤗 Transformers: State-of-the-art Machine Learning for Pytorch, Te)
+* [FunASR](GitHub - modelscope/FunASR: A Fundamental End-to-End Speech Recognition Toolkit and Open Source SOTA)
+
+## 9. License Agreement
+
++ The use of weights for Step Audio related models requires following license in [1](https://huggingface.co/stepfun-ai/Step-Audio-Chat/tree/main). [2](https://huggingface.co/stepfun-ai/Step-Audio-Tokenizer/tree/main)[3](https://huggingface.co/stepfun-ai/Step-Audio-TTS-3B/tree/main)
+
++ The code in this open-source repository is licensed under the [Apache 2.0](LICENSE) License.
+
+## 10. Citation
 Our [manuscript](https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf) has been submitted to arXiv and is currently under review. The official preprint link and citation will be provided once the review is complete.
 ```
 @misc{stepaudiotechnicalreport,
