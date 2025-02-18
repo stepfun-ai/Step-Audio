@@ -641,7 +641,7 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 ### Rap & Vocal
 | prompt | response |
 |:-------:|:-------:|
-|human：唱一段rap|[google drive](https://drive.google.com/file/d/1F8CKmVbGZ7X7d1IkQPlmndSHeG40AXha/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
+|Human: 唱一段rap|[google drive](https://drive.google.com/file/d/1F8CKmVbGZ7X7d1IkQPlmndSHeG40AXha/preview)<br>[audio file](https://github.com/stepfun-ai/Step-Audio/tree/main/examples/rap.wav)|
 
 ## 8. 引用
 [论文](https://github.com/stepfun-ai/Step-Audio/blob/cn-readme/assets/Step-Audio.pdf)已提交至arXiv，目前正在审核中。在审核完成后会提供官方预印本链接和论文引用。
