@@ -74,7 +74,7 @@ def predict(chatbot, history, audio_model, asr_model):
         if isinstance(history[-1]["content"], dict):
             is_input_audio = True
             user_audio_path = history[-1]["content"]["audio"]
-        text, audio, sr = audio_model(history, "闫雨婷")
+        text, audio, sr = audio_model(history, "Tingting")
         print(f"predict {text=}")
         audio_path = save_tmp_audio(audio, sr)
         # 缓存用户语音的 asr 文本结果为了加速下一次推理

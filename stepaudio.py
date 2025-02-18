@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     text, audio, sr = model(
         [{"role": "user", "content": "你好，我是你的朋友，我叫小明，你叫什么名字？"}],
-        "闫雨婷",
+        "Tingting",
     )
     torchaudio.save("output/output_e2e_tqta.wav", audio, sr)
     text, audio, sr = model(
@@ -105,6 +105,6 @@ if __name__ == "__main__":
                 "content": {"type": "audio", "audio": "output/output_e2e_tqta.wav"},
             }
         ],
-        "闫雨婷",
+        "Tingting",
     )
     torchaudio.save("output/output_e2e_aqta.wav", audio, sr)

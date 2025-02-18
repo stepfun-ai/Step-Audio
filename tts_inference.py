@@ -25,7 +25,7 @@ def main():
 
     if args.synthesis_type == "tts":
         text = "（RAP）我踏上自由的征途，追逐那遥远的梦想，挣脱束缚的枷锁，让心灵随风飘荡，每一步都充满力量，每一刻都无比闪亮，自由的信念在燃烧，照亮我前进的方向!"
-        output_audio, sr = tts_engine(text, "闫雨婷")
+        output_audio, sr = tts_engine(text, "Tingting")
         torchaudio.save(f"{args.output_path}/output_tts.wav", output_audio, sr)
     else:
         clone_speaker = {"speaker":"test","prompt_text":"叫做秋风起蟹脚痒，啊，什么意思呢？就是说这秋风一起啊，螃蟹就该上市了。", "wav_path":"examples/prompt_wav_yuqian.wav"}
