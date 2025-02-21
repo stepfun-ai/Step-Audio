@@ -177,7 +177,9 @@ class MaskedDiffWithXvec(torch.nn.Module):
         conds = torch.zeros(
             [1, mel_len1 + mel_len2, self.output_size], device=token.device
         )
-        conds[:, :mel_len1] = prompt_feat
+
+        conds[:, :mel_len1] = prompt_feat  # 赋值
+
         conds = conds.transpose(1, 2)
 
         # mask = (~make_pad_mask(torch.tensor([mel_len1 + mel_len2]))).to(h)

@@ -170,6 +170,35 @@ python tts_inference.py --model-path where_you_download_dir --output-path where_
 python app.py --model-path where_you_download_dir
 ```
 
+#### 单独Step-Audio-TTS-3B 的网页演示
+
+
+```bash
+python gradio_app.py --model-path where_you_download_dir
+```
+
+**前端展示**
+
+<img src = "./assets/common.png">
+<center>普通语音合成
+
+<img src = "./assets/music.png">
+<center>RAP、哼唱模式
+
+<img src = "./assets/clone.png">
+<center>语音克隆模式
+
+
+### 关于生成音色
+
+官网默认使用speakers下的Tingting音色，可根据相同设置新增音色，（务必保证音频文件为单通道，可使用2sign.py 将立体音频转为单通道音频）
+
+同时在speaker_info.json中增加人物语音信息。
+
+
+
+
+
 ## 5. 基准
 
 ### 5.1 语音识别

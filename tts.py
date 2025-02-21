@@ -75,6 +75,8 @@ class StepAudioTTS:
         self.register_speakers()
 
     def __call__(self, text: str, prompt_speaker: str, clone_dict: dict | None = None):
+        #传入三个参数：
+        #分别为要生成的文本、讲话人、克隆列表
         if clone_dict:
             clone_prompt_code, clone_prompt_token, clone_prompt_token_len, clone_speech_feat, clone_speech_feat_len, clone_speech_embedding = (
                 self.preprocess_prompt_wav(clone_dict['wav_path'])
@@ -90,19 +92,25 @@ class StepAudioTTS:
                 "cosy_prompt_token_len": clone_prompt_token_len,
             }
 
+
         instruction_name = self.detect_instruction_name(text)
-        prompt_speaker_info = self.speakers_info[prompt_speaker]
-        
         if instruction_name in ("RAP", "哼唱"):
-            if not clone_dict:
-                prompt_speaker_info = self.speakers_info[
-                    f"{prompt_speaker}{instruction_name}"
-                ]
+            #选取是RAP还是哼唱，然后再speakers中选择wav文件
+            #调用音乐模型
+            prompt_speaker_info = self.speakers_info[
+                f"{prompt_speaker}{instruction_name}"
+            ]
+            print(prompt_speaker_info)
             cosy_model = self.music_cosy_model
         else:
+            #如果没有RAP和哼唱则就直接使用Tingting这个音频
+            #调用通用模型
+            prompt_speaker_info = self.speakers_info[prompt_speaker]
+            print(prompt_speaker_info)
             cosy_model = self.common_cosy_model
 
         if clone_dict:
+            #如果第三个参数不为空，则设置prompt为空
             prompt_speaker = ''
 
         token_ids = self.tokenize(
@@ -173,8 +181,10 @@ class StepAudioTTS:
             else:
                 prompt = self.sys_prompt_dict["sys_prompt_for_rap"]
         elif prompt_speaker:
+            #如果不为空，则设置使用speaker的音色
             prompt = self.sys_prompt_dict["sys_prompt_with_spk"].format(prompt_speaker)
         else:
+            #如果为空，则不设置讲话人
             prompt = self.sys_prompt_dict["sys_prompt_wo_spk"]
 
         sys_tokens = self.tokenizer.encode(f"system\n{prompt}")

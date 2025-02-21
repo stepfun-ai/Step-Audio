@@ -55,11 +55,32 @@ class StepAudioTokenizer:
             audio = energy_norm_fn(audio)
 
         if enable_trim:
-            audio = audio.cpu().numpy().squeeze(0)
+            print(f"Original shape: {audio.shape}")
+
+            # 如果是 2 个通道，则转换为单通道
+            if audio.ndim == 2:
+                audio = audio.mean(axis=0)  # 计算两个通道的均值，转换为单通道
+                print(f"Converted stereo to mono, new shape: {audio.shape}")
+
+            # 先转换为 numpy，然后进行处理
+            audio = audio.cpu().numpy()
+
+            # 去除静音
             audio = trim_silence(audio, 16000)
             audio = torch.from_numpy(audio)
             audio = audio.unsqueeze(0)
+
+            print(f"Final processed shape: {audio.shape}")
+
         return audio
+
+
+        # if enable_trim:
+        #     audio = audio.cpu().numpy().squeeze(0)
+        #     audio = trim_silence(audio, 16000)
+        #     audio = torch.from_numpy(audio)
+        #     audio = audio.unsqueeze(0)
+        # return audio
 
     def wav2token(self, audio, sample_rate, enable_trim=True, energy_norm=True):
         audio = self.preprocess_wav(
