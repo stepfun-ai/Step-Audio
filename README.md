@@ -34,7 +34,10 @@
 4. [Model Usage](#4-model-usage)
 5. [Benchmark](#5-benchmark)
 6. [Online Engine](#6-online-engine)
-7. [Citation](#7-citation)
+7. [Examples](#7-examples)
+8. [Acknowledgements](#8-acknowledgements)
+9. [License Agreement](#9-license-agreement)
+10. [Citation](#10-citation)
 
 ## 1. Introduction
 
