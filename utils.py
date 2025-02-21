@@ -33,18 +33,14 @@ def trim_silence(audio, sr, keep_left_time=0.05, keep_right_time=0.22, hop_size=
     if start_idx > 0:
         trim_wav = trim_wav[start_idx:]
     else:
-        trim_wav = np.pad(
-            trim_wav, (abs(start_idx), 0), mode="constant", constant_values=0.0
-        )
+        trim_wav = np.pad(trim_wav, (abs(start_idx), 0), mode="constant", constant_values=0.0)
     wav_len = len(trim_wav)
     out_len = int(num_frames * hop_size + (keep_left_time + keep_right_time) * sr)
 
     if out_len < wav_len:
         trim_wav = trim_wav[:out_len]
     else:
-        trim_wav = np.pad(
-            trim_wav, (0, (out_len - wav_len)), mode="constant", constant_values=0.0
-        )
+        trim_wav = np.pad(trim_wav, (0, (out_len - wav_len)), mode="constant", constant_values=0.0)
     return trim_wav
 
 
@@ -109,9 +105,7 @@ def audio_resample(audio16bit_torch, result_sr, target_sample_rate):
 def norm_audio(audio16bit_torch):
     # 直接 归一化处理。
     audio16bit_torch = audio16bit_torch.numpy()
-    audio16bit_torch = (
-        audio16bit_torch / np.abs(audio16bit_torch).max() * 32767
-    ).astype(np.int16)
+    audio16bit_torch = (audio16bit_torch / np.abs(audio16bit_torch).max() * 32767).astype(np.int16)
     audio16bit_torch = torch.from_numpy(audio16bit_torch)
     return audio16bit_torch
 
@@ -142,8 +136,7 @@ def energy_norm_fn(wav):
 def get_audio_tokens(audio_tokens: str) -> list[int]:
     audio_tokens = audio_tokens.split("><audio_")
     audio_tokens = [
-        int(token.replace("<audio_", "").replace(">", "")) + 65536
-        for token in audio_tokens
+        int(token.replace("<audio_", "").replace(">", "")) + 65536 for token in audio_tokens
     ]
     return audio_tokens
 
@@ -152,3 +145,65 @@ def load_audio(audio_path: str):
     audio_wav, sr = torchaudio.load(audio_path)
     audio_wav = audio_wav.mean(dim=0, keepdim=True)
     return audio_wav, sr
+
+
+def splite_batches(tensor_audio_token_ids: torch.Tensor, batch_size: int):
+    """
+    splite batches of audio token IDs.
+    # Assuming tensor_audio_token_ids is already defined as in your original code
+    # and has shape (1, sequence_length)
+
+    Args:
+      tensor_audio_token_ids: A tensor of audio token IDs.
+      batch_size: The desired batch size.
+
+    Returns:
+      A list of tensors, where each tensor is a batch of audio token IDs.
+    """
+    sequence_length = tensor_audio_token_ids.shape[1]
+    num_batches = (sequence_length + batch_size - 1) // batch_size
+    batched_ids = []
+
+    for i in range(num_batches):
+        start_index = i * batch_size
+        end_index = min((i + 1) * batch_size, sequence_length)
+        batch = tensor_audio_token_ids[:, start_index:end_index]
+        batched_ids.append(batch)
+
+    return batched_ids
+
+
+def merge_tensors(sub_tts_speechs: torch.Tensor):
+    """
+    Merges a list of tensors into a single tensor.
+    # Assuming sub_tts_speechs is a list of tensors
+    # and all tensors in the list have the same number of channels
+    # and has shape (1, sequence_length)
+    # but possibly different lengths.
+
+    Args:
+      sub_tts_speechs: A list of tensors.
+
+    Returns:
+      A single tensor with all the sub tensors concatenated along the time dimension.
+      Returns None if the input list is empty or contains tensors with inconsistent shapes.
+    """
+    if not sub_tts_speechs:
+        return None
+
+    num_channels = sub_tts_speechs[0].shape[0]
+    total_length = sum(tensor.shape[1] for tensor in sub_tts_speechs)
+    merged_tensor = torch.empty(
+        num_channels, total_length, dtype=sub_tts_speechs[0].dtype, device=sub_tts_speechs[0].device
+    )
+    current_position = 0
+
+    for tensor in sub_tts_speechs:
+        if tensor.shape[0] != num_channels:
+            print("Error: Tensors have inconsistent number of channels.")
+            return None
+
+        merged_tensor[:, current_position : current_position + tensor.shape[1]] = tensor
+        current_position += tensor.shape[1]
+
+    return merged_tensor
