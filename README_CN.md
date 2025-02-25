@@ -169,36 +169,12 @@ python tts_inference.py --model-path where_you_download_dir --output-path where_
 假设您已配备4块GPU且已完成所有模型的下载。
 
 ```bash
+# Step-Audio-Chat demo
 python app.py --model-path where_you_download_dir
+
+# 单独 Step-Audio-TTS-3B demo
+python tts_app.py --model-path where_you_download_dir
 ```
-
-#### 单独Step-Audio-TTS-3B 的网页演示
-
-
-```bash
-python gradio_app.py --model-path where_you_download_dir
-```
-
-**前端展示**
-
-<img src = "./assets/common.png">
-<center>普通语音合成
-
-<img src = "./assets/music.png">
-<center>RAP、哼唱模式
-
-<img src = "./assets/clone.png">
-<center>语音克隆模式
-
-
-### 关于生成音色
-
-官网默认使用speakers下的Tingting音色，可根据相同设置新增音色，（务必保证音频文件为单通道，可使用2sign.py 将立体音频转为单通道音频）
-
-同时在speaker_info.json中增加人物语音信息。
-
-
-
 
 
 ## 5. 基准
@@ -689,13 +665,13 @@ Step-Audio 的在线版本可以通过[跃问](https://yuewen.cn) 的应用程�
 ## 10. 引用
 ```
 @misc{huang2025stepaudiounifiedunderstandinggeneration,
-      title={Step-Audio: Unified Understanding and Generation in Intelligent Speech Interaction}, 
+      title={Step-Audio: Unified Understanding and Generation in Intelligent Speech Interaction},
       author={Ailin Huang and Boyong Wu and Bruce Wang and Chao Yan and Chen Hu and Chengli Feng and Fei Tian and Feiyu Shen and Jingbei Li and Mingrui Chen and Peng Liu and Ruihang Miao and Wang You and Xi Chen and Xuerui Yang and Yechang Huang and Yuxiang Zhang and Zheng Gong and Zixin Zhang and Brian Li and Changyi Wan and Hanpeng Hu and Ranchen Ming and Song Yuan and Xuelin Zhang and Yu Zhou and Bingxin Li and Buyun Ma and Kang An and Wei Ji and Wen Li and Xuan Wen and Yuankai Ma and Yuanwei Liang and Yun Mou and Bahtiyar Ahmidi and Bin Wang and Bo Li and Changxin Miao and Chen Xu and Chengting Feng and Chenrun Wang and Dapeng Shi and Deshan Sun and Dingyuan Hu and Dula Sai and Enle Liu and Guanzhe Huang and Gulin Yan and Heng Wang and Haonan Jia and Haoyang Zhang and Jiahao Gong and Jianchang Wu and Jiahong Liu and Jianjian Sun and Jiangjie Zhen and Jie Feng and Jie Wu and Jiaoren Wu and Jie Yang and Jinguo Wang and Jingyang Zhang and Junzhe Lin and Kaixiang Li and Lei Xia and Li Zhou and Longlong Gu and Mei Chen and Menglin Wu and Ming Li and Mingxiao Li and Mingyao Liang and Na Wang and Nie Hao and Qiling Wu and Qinyuan Tan and Shaoliang Pang and Shiliang Yang and Shuli Gao and Siqi Liu and Sitong Liu and Tiancheng Cao and Tianyu Wang and Wenjin Deng and Wenqing He and Wen Sun and Xin Han and Xiaomin Deng and Xiaojia Liu and Xu Zhao and Yanan Wei and Yanbo Yu and Yang Cao and Yangguang Li and Yangzhen Ma and Yanming Xu and Yaqiang Shi and Yilei Wang and Yinmin Zhong and Yu Luo and Yuanwei Lu and Yuhe Yin and Yuting Yan and Yuxiang Yang and Zhe Xie and Zheng Ge and Zheng Sun and Zhewei Huang and Zhichao Chang and Zidong Yang and Zili Zhang and Binxing Jiao and Daxin Jiang and Heung-Yeung Shum and Jiansheng Chen and Jing Li and Shuchang Zhou and Xiangyu Zhang and Xinhao Zhang and Yibo Zhu},
       year={2025},
       eprint={2502.11946},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2502.11946}, 
+      url={https://arxiv.org/abs/2502.11946},
 }
 ```
 

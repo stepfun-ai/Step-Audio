@@ -100,13 +100,11 @@ class StepAudioTTS:
             prompt_speaker_info = self.speakers_info[
                 f"{prompt_speaker}{instruction_name}"
             ]
-            print(prompt_speaker_info)
             cosy_model = self.music_cosy_model
         else:
             #如果没有RAP和哼唱则就直接使用Tingting这个音频
             #调用通用模型
             prompt_speaker_info = self.speakers_info[prompt_speaker]
-            print(prompt_speaker_info)
             cosy_model = self.common_cosy_model
 
         if clone_dict:
@@ -224,6 +222,7 @@ class StepAudioTTS:
         prompt_wav, prompt_wav_sr = torchaudio.load(prompt_wav_path)
         if prompt_wav.shape[0] > 1:
             prompt_wav = prompt_wav.mean(dim=0, keepdim=True)  # 将多通道音频转换为单通道
+
         prompt_wav_16k = torchaudio.transforms.Resample(
             orig_freq=prompt_wav_sr, new_freq=16000
         )(prompt_wav)
