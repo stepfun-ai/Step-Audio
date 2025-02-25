@@ -155,7 +155,12 @@ python tts_inference.py --model-path where_you_download_dir --output-path where_
 4つのGPUが利用可能で、すべてのモデルをダウンロード済みであると仮定します。
 
 ```bash
+# Step-Audio-Chat デモ
 python app.py --model-path where_you_download_dir
+
+# Step-Audio-TTS-3B デモ
+python tts_app.py --model-path where_you_download_dir
+
 ```
 
 ## 5. ベンチマーク
