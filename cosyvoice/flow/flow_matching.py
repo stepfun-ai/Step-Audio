@@ -51,6 +51,9 @@ class ConditionalCFM(BASECFM):
         temperature=1.0,
         spks=None,
         cond=None,
+        prompt_len=0,
+        # flow_cache=torch.zeros(1, 80, 0, 2),
+        flow_cache=None,
     ):
         """Forward diffusion
 
@@ -69,13 +72,24 @@ class ConditionalCFM(BASECFM):
             sample: generated mel-spectrogram
                 shape: (batch_size, n_feats, mel_timesteps)
         """
-        z = torch.randn_like(mu) * temperature
+        z = torch.randn_like(mu).to(mu.device).to(mu.dtype) * temperature
+
+        if flow_cache is not None:
+            cache_size = flow_cache.shape[2]
+            # fix prompt and overlap part mu and z
+            if cache_size != 0:
+                z[:, :, :cache_size] = flow_cache[:, :, :, 0]
+                mu[:, :, :cache_size] = flow_cache[:, :, :, 1]
+            z_cache = torch.concat([z[:, :, :prompt_len], z[:, :, -34:]], dim=2)
+            mu_cache = torch.concat([mu[:, :, :prompt_len], mu[:, :, -34:]], dim=2)
+            flow_cache = torch.stack([z_cache, mu_cache], dim=-1)
+
         t_span = torch.linspace(0, 1, n_timesteps + 1, device=mu.device, dtype=mu.dtype)
         if self.t_scheduler == "cosine":
             t_span = 1 - torch.cos(t_span * 0.5 * torch.pi)
         return self.solve_euler(
             z, t_span=t_span, mu=mu, mask=mask, spks=spks, cond=cond
-        )
+        ), flow_cache
 
     @torch.inference_mode()
     def capture_inference(self, seq_len_to_capture=list(range(128, 512, 8))):
@@ -96,9 +110,7 @@ class ConditionalCFM(BASECFM):
             static_mask = torch.ones(
                 1, 1, seq_len, device=torch.device("cuda"), dtype=torch.bfloat16
             )
-            static_spks = torch.randn(
-                1, 80, device=torch.device("cuda"), dtype=torch.bfloat16
-            )
+            static_spks = torch.randn(1, 80, device=torch.device("cuda"), dtype=torch.bfloat16)
             static_cond = torch.randn(
                 1, 80, seq_len, device=torch.device("cuda"), dtype=torch.float32
             )
@@ -231,9 +243,7 @@ class ConditionalCFM(BASECFM):
                 mu_double = torch.cat([mu, torch.zeros_like(mu)], dim=0)
                 t_double = torch.cat([t, t], dim=0)
                 spks_double = (
-                    torch.cat([spks, torch.zeros_like(spks)], dim=0)
-                    if spks is not None
-                    else None
+                    torch.cat([spks, torch.zeros_like(spks)], dim=0) if spks is not None else None
                 )
                 cond_double = torch.cat([cond, torch.zeros_like(cond)], dim=0)
 
@@ -309,7 +319,5 @@ class ConditionalCFM(BASECFM):
             cond = cond * cfg_mask.view(-1, 1, 1)
 
         pred = self.estimator(y, mask, mu, t.squeeze(), spks, cond)
-        loss = F.mse_loss(pred * mask, u * mask, reduction="sum") / (
-            torch.sum(mask) * u.shape[1]
-        )
+        loss = F.mse_loss(pred * mask, u * mask, reduction="sum") / (torch.sum(mask) * u.shape[1])
         return loss, y

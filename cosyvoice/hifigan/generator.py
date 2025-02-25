@@ -146,17 +146,15 @@ class SineGen(torch.nn.Module):
         :return: [B, 1, sample_len]
         """
 
-        F_mat = torch.zeros((f0.size(0), self.harmonic_num + 1, f0.size(-1))).to(
-            f0.device
-        )
+        F_mat = torch.zeros((f0.size(0), self.harmonic_num + 1, f0.size(-1))).to(f0.device)
         for i in range(self.harmonic_num + 1):
             F_mat[:, i : i + 1, :] = f0 * (i + 1) / self.sampling_rate
 
         theta_mat = 2 * np.pi * (torch.cumsum(F_mat, dim=-1) % 1)
         u_dist = Uniform(low=-np.pi, high=np.pi)
-        phase_vec = u_dist.sample(
-            sample_shape=(f0.size(0), self.harmonic_num + 1, 1)
-        ).to(F_mat.device)
+        phase_vec = u_dist.sample(sample_shape=(f0.size(0), self.harmonic_num + 1, 1)).to(
+            F_mat.device
+        )
         phase_vec[:, 0, :] = 0
 
         # generate sine waveforms
@@ -322,9 +320,7 @@ class HiFTGenerator(nn.Module):
         ):
             if u == 1:
                 self.source_downs.append(
-                    Conv1d(
-                        istft_params["n_fft"] + 2, base_channels // (2 ** (i + 1)), 1, 1
-                    )
+                    Conv1d(istft_params["n_fft"] + 2, base_channels // (2 ** (i + 1)), 1, 1)
                 )
             else:
                 self.source_downs.append(
@@ -337,21 +333,15 @@ class HiFTGenerator(nn.Module):
                     )
                 )
 
-            self.source_resblocks.append(
-                ResBlock(base_channels // (2 ** (i + 1)), k, d)
-            )
+            self.source_resblocks.append(ResBlock(base_channels // (2 ** (i + 1)), k, d))
 
         self.resblocks = nn.ModuleList()
         for i in range(len(self.ups)):
             ch = base_channels // (2 ** (i + 1))
-            for _, (k, d) in enumerate(
-                zip(resblock_kernel_sizes, resblock_dilation_sizes)
-            ):
+            for _, (k, d) in enumerate(zip(resblock_kernel_sizes, resblock_dilation_sizes)):
                 self.resblocks.append(ResBlock(ch, k, d))
 
-        self.conv_post = weight_norm(
-            Conv1d(ch, istft_params["n_fft"] + 2, 7, 1, padding=3)
-        )
+        self.conv_post = weight_norm(Conv1d(ch, istft_params["n_fft"] + 2, 7, 1, padding=3))
         self.ups.apply(init_weights)
         self.conv_post.apply(init_weights)
         self.reflection_pad = nn.ReflectionPad1d((1, 0))
@@ -491,6 +481,11 @@ class HiFTGenerator(nn.Module):
         curr_seq_len = mel.shape[2]
         f0 = self.f0_predictor(mel)
         s = self._f02source(f0)
+
+        # use cache_source to avoid glitch
+        if cache_source is not None and cache_source.shape[2] != 0:
+            s[:, :, : cache_source.shape[2]] = cache_source
+
         s_stft_real, s_stft_imag = self._stft(s.squeeze(1))
         s_stft = torch.cat([s_stft_real, s_stft_imag], dim=1)
 
@@ -533,13 +528,9 @@ class HiFTGenerator(nn.Module):
     @torch.inference_mode()
     def capture_inference(self, seq_len_to_capture=[64, 128, 256, 512, 1024]):
         start_time = time.time()
-        print(
-            f"capture inference for HiFTGenerator with seq_len_to_capture: {seq_len_to_capture}"
-        )
+        print(f"capture inference for HiFTGenerator with seq_len_to_capture: {seq_len_to_capture}")
         for seq_len in seq_len_to_capture:
-            mel = torch.randn(
-                1, 80, seq_len, device=torch.device("cuda"), dtype=torch.float32
-            )
+            mel = torch.randn(1, 80, seq_len, device=torch.device("cuda"), dtype=torch.float32)
             f0 = self.f0_predictor(mel)
             s = self._f02source(f0)
             s_stft_real, s_stft_imag = self._stft(s.squeeze(1))

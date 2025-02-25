@@ -121,9 +121,7 @@ class MaskedDiffWithXvec(torch.nn.Module):
         conds = conds.transpose(1, 2)
 
         mask = (~make_pad_mask(feat_len)).to(h)
-        feat = F.interpolate(
-            feat.unsqueeze(dim=1), size=h.shape[1:], mode="nearest"
-        ).squeeze(dim=1)
+        feat = F.interpolate(feat.unsqueeze(dim=1), size=h.shape[1:], mode="nearest").squeeze(dim=1)
         loss, _ = self.decoder.compute_loss(
             feat.transpose(1, 2).contiguous(),
             mask.unsqueeze(1),
@@ -143,6 +141,7 @@ class MaskedDiffWithXvec(torch.nn.Module):
         prompt_feat,
         prompt_feat_len,
         embedding,
+        flow_cache=None,
     ):
         assert token.shape[0] == 1
         # xvec projection
@@ -159,11 +158,14 @@ class MaskedDiffWithXvec(torch.nn.Module):
         token = self.input_embedding(torch.clamp(token, min=0))
         h, _ = self.encoder.inference(token, token_len)
         h = self.encoder_proj(h)
-        mel_len1, mel_len2 = prompt_feat.shape[1], int(
-            token_len2
-            / self.input_frame_rate
-            * self.mel_feat_conf["sampling_rate"]
-            / self.mel_feat_conf["hop_size"]
+        mel_len1, mel_len2 = (
+            prompt_feat.shape[1],
+            int(
+                token_len2
+                / self.input_frame_rate
+                * self.mel_feat_conf["sampling_rate"]
+                / self.mel_feat_conf["hop_size"]
+            ),
         )
 
         h, _ = self.length_regulator.inference(
@@ -174,23 +176,21 @@ class MaskedDiffWithXvec(torch.nn.Module):
         )
 
         # get conditions
-        conds = torch.zeros(
-            [1, mel_len1 + mel_len2, self.output_size], device=token.device
-        )
+        conds = torch.zeros([1, mel_len1 + mel_len2, self.output_size], device=token.device)
         conds[:, :mel_len1] = prompt_feat
         conds = conds.transpose(1, 2)
 
         # mask = (~make_pad_mask(torch.tensor([mel_len1 + mel_len2]))).to(h)
-        mask = torch.ones(
-            [1, mel_len1 + mel_len2], device=h.device, dtype=torch.bfloat16
-        )
-        feat = self.decoder(
+        mask = torch.ones([1, mel_len1 + mel_len2], device=h.device, dtype=torch.bfloat16)
+        feat, flow_cache = self.decoder(
             mu=h.transpose(1, 2).contiguous(),
             mask=mask.unsqueeze(1),
             spks=embedding,
             cond=conds,
             n_timesteps=10,
+            prompt_len=mel_len1,
+            flow_cache=flow_cache,
         )
         feat = feat[:, :, mel_len1:]
         assert feat.shape[2] == mel_len2
-        return feat
+        return feat.float(), flow_cache

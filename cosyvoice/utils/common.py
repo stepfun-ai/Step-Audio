@@ -16,6 +16,7 @@
 """Unility functions for Transformer."""
 
 import random
+import threading
 from typing import List
 
 import numpy as np
@@ -88,9 +89,7 @@ def th_accuracy(
         pad_targets.size(0), pad_targets.size(1), pad_outputs.size(1)
     ).argmax(2)
     mask = pad_targets != ignore_label
-    numerator = torch.sum(
-        pad_pred.masked_select(mask) == pad_targets.masked_select(mask)
-    )
+    numerator = torch.sum(pad_pred.masked_select(mask) == pad_targets.masked_select(mask))
     denominator = torch.sum(mask)
     return (numerator / denominator).detach()
 
@@ -129,9 +128,7 @@ def ras_sampling(
 def nucleus_sampling(weighted_scores, top_p=0.8, top_k=25):
     prob, indices = [], []
     cum_prob = 0.0
-    sorted_value, sorted_idx = weighted_scores.softmax(dim=0).sort(
-        descending=True, stable=True
-    )
+    sorted_value, sorted_idx = weighted_scores.softmax(dim=0).sort(descending=True, stable=True)
     for i in range(len(sorted_idx)):
         # sampling both top-p and numbers.
         if cum_prob < top_p and len(prob) < top_k:
@@ -167,3 +164,22 @@ def set_all_random_seed(seed):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+
+
+class ThreadSafeDict:
+    def __init__(self):
+        self._dict = {}
+        # 使用 RLock 可重入锁，避免死锁
+        self._lock = threading.RLock()
+
+    def get(self, key, default=None):
+        with self._lock:
+            return self._dict.get(key, default)
+
+    def set(self, key, value):
+        with self._lock:
+            self._dict[key] = value
+
+    def pop(self, key):
+        with self._lock:
+            return self._dict.pop(key, None)
