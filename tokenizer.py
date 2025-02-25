@@ -75,13 +75,6 @@ class StepAudioTokenizer:
         return audio
 
 
-        # if enable_trim:
-        #     audio = audio.cpu().numpy().squeeze(0)
-        #     audio = trim_silence(audio, 16000)
-        #     audio = torch.from_numpy(audio)
-        #     audio = audio.unsqueeze(0)
-        # return audio
-
     def wav2token(self, audio, sample_rate, enable_trim=True, energy_norm=True):
         audio = self.preprocess_wav(
             audio, sample_rate, enable_trim=enable_trim, energy_norm=energy_norm
