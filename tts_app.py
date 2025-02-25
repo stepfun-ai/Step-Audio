@@ -10,14 +10,20 @@ import os
 # 保存音频
 def save_audio(audio_type, audio_data, sr):
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = os.path.join(args.save_dir, audio_type, f"{current_time}.wav")
+    save_path = os.path.join(args.tmp_dir, audio_type, f"{current_time}.wav")
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     torchaudio.save(save_path, audio_data, sr)
     return save_path
 
 
 # 普通语音合成
 def tts_common(text, speaker, emotion, language, speed):
-    text = (f"({emotion})" if emotion else "") + (f"({language})" if language else "") + (f"({speed})" if speed else "") + text
+    text = (
+        (f"({emotion})" if emotion else "")
+        + (f"({language})" if language else "")
+        + (f"({speed})" if speed else "")
+        + text
+    )
     output_audio, sr = tts_engine(text, speaker)
     audio_type = "common"
     common_path = save_audio(audio_type, output_audio, sr)
@@ -34,13 +40,18 @@ def tts_music(text_input_rap, speaker, mode_input):
 
 
 # 语音克隆
-def tts_clone(text, wav_file, speaker_prompt, speaker_name, emotion, language, speed):
+def tts_clone(text, wav_file, speaker_prompt, emotion, language, speed):
     clone_speaker = {
         "wav_path": wav_file,
-        "speaker": speaker_name,
+        "speaker": "custom_voice",
         "prompt_text": speaker_prompt,
     }
-    clone_text = (f"({emotion})" if emotion else "") + (f"({language})" if language else "") + (f"({speed})" if speed else "") + text
+    clone_text = (
+        (f"({emotion})" if emotion else "")
+        + (f"({language})" if language else "")
+        + (f"({speed})" if speed else "")
+        + text
+    )
     output_audio, sr = tts_engine(clone_text, "", clone_speaker)
     audio_type = "clone"
     clone_path = save_audio(audio_type, output_audio, sr)
@@ -137,10 +148,6 @@ def launch_demo(args):
             speaker_prompt = gr.Textbox(
                 label="Exact text from reference audio (输入参考音频的准确文本)",
             )
-            speaker_name_input = gr.Textbox(
-                label="Voice Identifier [a-z0-9_] (音色标识)",
-                placeholder="MyVoice",
-            )
             emotion_input = gr.Dropdown(
                 emotion_options,
                 label="Emotion Style (情感风格)",
@@ -170,7 +177,6 @@ def launch_demo(args):
                     text_input_clone,
                     audio_input,
                     speaker_prompt,
-                    speaker_name_input,
                     emotion_input,
                     language_input,
                     speed_input,
@@ -192,7 +198,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--server-port", type=int, default=7860, help="Demo server port."
     )
-    parser.add_argument("--save_dir", type=str, default="./results", help="Save path.")
+    parser.add_argument("--tmp_dir", type=str, default="/tmp/gradio", help="Save path.")
 
     args = parser.parse_args()
     # 使用解析后的命令行参数设置模型路径

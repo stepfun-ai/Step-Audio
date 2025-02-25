@@ -55,8 +55,6 @@ class StepAudioTokenizer:
             audio = energy_norm_fn(audio)
 
         if enable_trim:
-            if audio.ndim == 2:
-                audio = audio.mean(axis=0)
             audio = audio.cpu().numpy().squeeze(0)
             audio = trim_silence(audio, 16000)
             audio = torch.from_numpy(audio)
