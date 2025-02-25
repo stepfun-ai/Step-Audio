@@ -4,7 +4,7 @@ import torchaudio
 from tts import StepAudioTTS
 from tokenizer import StepAudioTokenizer
 from datetime import datetime
-
+import os
 # 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument("--model-path", type=str, required=True, help="Model path.")
@@ -17,30 +17,38 @@ parser.add_argument(
 parser.add_argument(
     "--share", action="store_true", help="Enable sharing of the demo."
 )
-args = parser.parse_args()
+parser.add_argument(
+    "--save_dir",type=str, default="./results", help="Save path."
+)
 
+args = parser.parse_args()
 # 使用解析后的命令行参数设置模型路径
 model_path = args.model_path
 encoder = StepAudioTokenizer(f"{model_path}/Step-Audio-Tokenizer")
 tts_engine = StepAudioTTS(f"{model_path}/Step-Audio-TTS-3B", encoder)
 
+# 保存音频
+def save_audio(audio_type, audio_data, sr):
+    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    save_path = os.path.join(args.save_dir, audio_type, f"{current_time}.wav")
+    torchaudio.save(save_path, audio_data, sr)
+    return save_path
+
 # 普通语音合成
 def tts_common(text, speaker, emotion, language, speed):
     text = f"({emotion})({language})({speed})" + text
     output_audio, sr = tts_engine(text, speaker)
-    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = f"./results/common/{current_time}.wav"
-    torchaudio.save(save_path, output_audio, sr)
-    return save_path
+    audio_type = "common"
+    common_path = save_audio(audio_type, output_audio, sr)
+    return common_path
 
 # RAP / 哼唱模式
 def tts_music(text_input_rap, speaker, mode_input):
     text_input_rap = f"({mode_input})" + text_input_rap
     output_audio, sr = tts_engine(text_input_rap, speaker)
-    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = f"./results/music/{current_time}.wav"
-    torchaudio.save(save_path, output_audio, sr)
-    return save_path
+    audio_type = "music"
+    music_path = save_audio(audio_type, output_audio, sr)
+    return music_path
 
 # 语音克隆
 def tts_clone(text, wav_file, speaker_prompt, speaker_name, emotion, language, speed):
@@ -51,10 +59,9 @@ def tts_clone(text, wav_file, speaker_prompt, speaker_name, emotion, language, s
     }
     clone_text = f"({emotion})({language})({speed})" + text
     output_audio, sr = tts_engine(clone_text, "", clone_speaker)
-    current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = f"./results/clone/{current_time}.wav"
-    torchaudio.save(save_path, output_audio, sr)
-    return save_path
+    audio_type = "clone"
+    clone_path = save_audio(audio_type, output_audio, sr)
+    return clone_path
 
 # 选项列表
 emotion_options = ["高兴1", "高兴2", "生气1", "生气2", "悲伤1", "撒娇1"]
