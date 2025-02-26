@@ -149,10 +149,10 @@ docker run --rm -ti --gpus all \
     step-audio \
     -- bash
 
-# build vllm docker
+# build vLLM docker
 docker build -f Dockerfile-vllm -t step-audio-vllm .
 
-# run vllm docker
+# run vLLM docker
 docker run --rm -ti --gpus all \
     -v /your/code/path:/app -v /your/model/path:/model \
     -p 7860:7860 \
@@ -161,7 +161,6 @@ docker run --rm -ti --gpus all \
     -- bash
 ```
 
-</details>
 
 ###  🚀 4.3 Inference Scripts
 #### Offline inference
@@ -208,7 +207,7 @@ export OPTIMUS_LIB_PATH=where_you_download_dir/Step-Audio-Chat/lib
 
 vllm serve where_you_download_dir/Step-Audio-Chat --dtype auto -tp $tp --served-model-name step-audio-chat --trust-remote-code
 
-# vllm chat example code
+# vLLM chat example code
 python call_vllm_chat.py
 ```
 

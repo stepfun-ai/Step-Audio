@@ -130,8 +130,7 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
-<details>
-<summary>Docker 実行環境</summary>
+#### Docker 実行環境
 
 dockerを使用してStep-Audioの実行に必要な環境を作成します
 
@@ -145,9 +144,19 @@ docker run --rm -ti --gpus all \
     -p 7860:7860 \
     step-audio \
     -- bash
+
+# vLLM Dockerイメージのビルド
+docker build -f Dockerfile-vllm -t step-audio-vllm .
+
+# vLLM Dockerコンテナの実行
+docker run --rm -ti --gpus all \
+    -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
+    -p 8000:8000 \
+    step-audio-vllm \
+    -- bash
 ```
 
-</details>
 
 ###  🚀 4.3 推論スクリプト
 #### オフライン推論

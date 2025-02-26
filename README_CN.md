@@ -143,8 +143,7 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
-<details>
-<summary>Docker 运行环境</summary>
+#### Docker 运行环境
 
 使用 `docker` 创建 `Step-Audio` 运行时所需要的环境
 
@@ -158,9 +157,19 @@ docker run --rm -ti --gpus all \
     -p 7860:7860 \
     step-audio \
     -- bash
+
+# 构建 vLLM docker 镜像
+docker build -f Dockerfile-vllm -t step-audio-vllm .
+
+# 运行 vLLM docker
+docker run --rm -ti --gpus all \
+    -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
+    -p 8000:8000 \
+    step-audio-vllm \
+    -- bash
 ```
 
-</details>
 
 ###  🚀 4.3 推理脚本
 #### 离线推理
@@ -208,7 +217,7 @@ export OPTIMUS_LIB_PATH=where_you_download_dir/Step-Audio-Chat/lib
 
 vllm serve where_you_download_dir/Step-Audio-Chat --dtype auto -tp $tp --served-model-name step-audio-chat --trust-remote-code
 
-# vllm chat 调用示例
+# vLLM chat 调用示例
 python call_vllm_chat.py
 ```
 
