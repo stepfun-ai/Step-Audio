@@ -1,0 +1,35 @@
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+RUN apt-get update \
+    && apt-get install -y build-essential \
+    && apt-get install -y wget \
+    && apt-get install -y software-properties-common curl zip unzip git-lfs awscli libssl-dev openssh-server vim \
+    && apt-get install -y net-tools iputils-ping iproute2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get install --reinstall ca-certificates && update-ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN add-apt-repository -y 'ppa:deadsnakes/ppa' && apt update
+RUN apt install python3.10 python3.10-dev python3.10-distutils python3.10-venv -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -qO- https://bootstrap.pypa.io/get-pip.py | python3.10
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
+RUN pip uninstall -y Pillow && pip install pillow
+
+COPY requirements-vllm.txt /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
+# update vllm
+RUN VLLM_PYTHON_DIR=$(pip3 show vllm | grep Location | awk '{print $2}')/vllm \
+    && git clone -b add-step1-model https://github.com/stepfun-ai/vllm.git /tmp/vllm \
+    && cd /tmp/vllm/vllm \
+    && find . -name '*.py' -exec cp -v --parents -t $VLLM_PYTHON_DIR {} + \
+    && rm -rf /tmp/vllm
