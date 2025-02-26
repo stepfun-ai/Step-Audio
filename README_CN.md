@@ -172,7 +172,7 @@ python tts_inference.py --model-path where_you_download_dir --output-path where_
 # Step-Audio-Chat demo
 python app.py --model-path where_you_download_dir
 
-# 单独 Step-Audio-TTS-3B demo
+# Step-Audio-TTS-3B demo
 python tts_app.py --model-path where_you_download_dir
 ```
 

@@ -162,7 +162,7 @@ Assume you have 4 GPUs available and have already downloaded all the models.
 # Step-Audio-Chat demo
 python app.py --model-path where_you_download_dir
 
-# 单独 Step-Audio-TTS-3B demo
+# Step-Audio-TTS-3B demo
 python tts_app.py --model-path where_you_download_dir
 ```
 
