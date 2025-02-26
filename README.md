@@ -149,12 +149,13 @@ docker run --rm -ti --gpus all \
     step-audio \
     -- bash
 
-# build vllm docker only for Step-Audio-Chat
+# build vllm docker
 docker build -f Dockerfile-vllm -t step-audio-vllm .
 
 # run vllm docker
 docker run --rm -ti --gpus all \
     -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
     -p 8000:8000 \
     step-audio-vllm \
     -- bash
@@ -196,6 +197,7 @@ python tts_app.py --model-path where_you_download_dir
 
 #### Inference Chat Model with vLLM (recommended)
 Step-Audio-Chat is a 130B LLM Model, it is recommended to use vLLM to inference with tensor parallelism.
+    * Since vLLM does not load Tokenizer and TTS, the model does not support audio input for inference.
 
 Currently, the official vLLM does not support the Step 1 model. You can temporarily use our [development branch](https://github.com/stepfun-ai/vllm/tree/add-step1-model) for local installation.
 
@@ -207,7 +209,7 @@ export OPTIMUS_LIB_PATH=where_you_download_dir/Step-Audio-Chat/lib
 vllm serve where_you_download_dir/Step-Audio-Chat --dtype auto -tp $tp --served-model-name step-audio-chat --trust-remote-code
 
 # vllm chat example code
-python3 call_vllm_chat.py
+python call_vllm_chat.py
 ```
 
 ## 5. Benchmark
