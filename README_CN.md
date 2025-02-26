@@ -143,6 +143,25 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
+<details>
+<summary>Docker 运行环境</summary>
+
+使用 `docker` 创建 `Step-Audio` 运行时所需要的环境
+
+```bash
+# 构建 docker 镜像
+docker build . -t step-audio
+
+# 运行 docker
+docker run --rm -ti --gpus all \
+    -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
+    step-audio \
+    -- bash
+```
+
+</details>
+
 ###  🚀 4.3 推理脚本
 #### 离线推理
 支持端到端音频/文本输入与音频/文本输出的推理流程。

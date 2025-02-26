@@ -130,6 +130,25 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
+<details>
+<summary>Docker 実行環境</summary>
+
+dockerを使用してStep-Audioの実行に必要な環境を作成します
+
+```bash
+# Dockerイメージのビルド
+docker build . -t step-audio
+
+# Dockerコンテナの実行
+docker run --rm -ti --gpus all \
+    -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
+    step-audio \
+    -- bash
+```
+
+</details>
+
 ###  🚀 4.3 推論スクリプト
 #### オフライン推論
 エンドツーエンドの音声/テキスト入力と音声/テキスト出力で推論を行います。

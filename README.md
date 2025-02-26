@@ -134,6 +134,25 @@ where_you_download_dir
 ├── Step-Audio-TTS-3B
 ```
 
+<details>
+<summary>Run with Docker</summary>
+
+You can set up the environment required for running Step-Audio using the provided Dockerfile.
+
+```bash
+# build docker
+docker build . -t step-audio
+
+# run docker
+docker run --rm -ti --gpus all \
+    -v /your/code/path:/app -v /your/model/path:/model \
+    -p 7860:7860 \
+    step-audio \
+    -- bash
+```
+
+</details>
+
 ###  🚀 4.3 Inference Scripts
 #### Offline inference
 Inference with e2e audio/text input and audio/text output.
