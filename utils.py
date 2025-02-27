@@ -4,8 +4,9 @@ import base64
 import librosa
 import numpy as np
 import math
+import os
+import threading
 import torch
-import torchaudio
 import torchaudio
 import sox
 import tempfile
@@ -152,3 +153,33 @@ def load_audio(audio_path: str):
     audio_wav, sr = torchaudio.load(audio_path)
     audio_wav = audio_wav.mean(dim=0, keepdim=True)
     return audio_wav, sr
+
+
+# load optimus_ths for flash attention, make sure LD_LIBRARY_PATH has `nvidia/cuda_nvrtc/lib`
+# if not, please manually set LD_LIBRARY_PATH=xxx/python3.10/site-packages/nvidia/cuda_nvrtc/lib
+def load_optimus_ths_lib(libpath):
+    if not hasattr(load_optimus_ths_lib, 'lock'):
+        load_optimus_ths_lib.lock = threading.Lock()
+    if not hasattr(load_optimus_ths_lib, 'success'):
+        load_optimus_ths_lib.success = False
+
+    with load_optimus_ths_lib.lock:
+        if load_optimus_ths_lib.success:
+            return load_optimus_ths_lib.success
+
+        try:
+            if torch.__version__ >= "2.5":
+                torch.ops.load_library(os.path.join(libpath, 'liboptimus_ths-torch2.5-cu124.cpython-310-x86_64-linux-gnu.so'))
+            elif torch.__version__ >= "2.3":
+                torch.ops.load_library(os.path.join(libpath, 'liboptimus_ths-torch2.3-cu121.cpython-310-x86_64-linux-gnu.so'))
+            elif torch.__version__ >= "2.2":
+                torch.ops.load_library(os.path.join(libpath, 'liboptimus_ths-torch2.2-cu121.cpython-310-x86_64-linux-gnu.so'))
+            else:
+                raise RuntimeError("Unsupported torch version")
+            print("Load optimus_ths successfully and flash attn would be enabled")
+            load_optimus_ths_lib.success = True
+        except Exception as err:
+            print(f"Fail to load optimus_ths and flash attn is disabled: {err}")
+            load_optimus_ths_lib.success = False
+
+        return load_optimus_ths_lib.success

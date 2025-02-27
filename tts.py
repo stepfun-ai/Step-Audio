@@ -9,7 +9,7 @@ from transformers.generation.logits_process import LogitsProcessor
 from transformers.generation.utils import LogitsProcessorList
 
 from cosyvoice.cli.cosyvoice import CosyVoice
-
+from utils import load_optimus_ths_lib
 
 class RepetitionAwareLogitsProcessor(LogitsProcessor):
     def __call__(
@@ -37,19 +37,7 @@ class StepAudioTTS:
         model_path,
         encoder,
     ):
-        # load optimus_ths for flash attention, make sure LD_LIBRARY_PATH has `nvidia/cuda_nvrtc/lib`
-        # if not, please manually set LD_LIBRARY_PATH=xxx/python3.10/site-packages/nvidia/cuda_nvrtc/lib
-        try:
-            if torch.__version__ >= "2.5":
-                torch.ops.load_library(os.path.join(model_path, 'lib/liboptimus_ths-torch2.5-cu124.cpython-310-x86_64-linux-gnu.so'))
-            elif torch.__version__ >= "2.3":
-                torch.ops.load_library(os.path.join(model_path, 'lib/liboptimus_ths-torch2.3-cu121.cpython-310-x86_64-linux-gnu.so'))
-            elif torch.__version__ >= "2.2":
-                torch.ops.load_library(os.path.join(model_path, 'lib/liboptimus_ths-torch2.2-cu121.cpython-310-x86_64-linux-gnu.so'))
-            print("Load optimus_ths successfully and flash attn would be enabled")
-        except Exception as err:
-            print(f"Fail to load optimus_ths and flash attn is disabled: {err}")
-
+        load_optimus_ths_lib(os.path.join(model_path, 'lib'))
         self.llm = AutoModelForCausalLM.from_pretrained(
             model_path,
             torch_dtype=torch.bfloat16,

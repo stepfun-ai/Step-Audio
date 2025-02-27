@@ -6,24 +6,12 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 from tokenizer import StepAudioTokenizer
 from tts import StepAudioTTS
-from utils import load_audio, speech_adjust, volumn_adjust
+from utils import load_audio, load_optimus_ths_lib, speech_adjust, volumn_adjust
 
 
 class StepAudio:
     def __init__(self, tokenizer_path: str, tts_path: str, llm_path: str):
-        # load optimus_ths for flash attention, make sure LD_LIBRARY_PATH has `nvidia/cuda_nvrtc/lib`
-        # if not, please manually set LD_LIBRARY_PATH=xxx/python3.10/site-packages/nvidia/cuda_nvrtc/lib
-        try:
-            if torch.__version__ >= "2.5":
-                torch.ops.load_library(os.path.join(llm_path, 'lib/liboptimus_ths-torch2.5-cu124.cpython-310-x86_64-linux-gnu.so'))
-            elif torch.__version__ >= "2.3":
-                torch.ops.load_library(os.path.join(llm_path, 'lib/liboptimus_ths-torch2.3-cu121.cpython-310-x86_64-linux-gnu.so'))
-            elif torch.__version__ >= "2.2":
-                torch.ops.load_library(os.path.join(llm_path, 'lib/liboptimus_ths-torch2.2-cu121.cpython-310-x86_64-linux-gnu.so'))
-            print("Load optimus_ths successfully and flash attn would be enabled")
-        except Exception as err:
-            print(f"Fail to load optimus_ths and flash attn is disabled: {err}")
-
+        load_optimus_ths_lib(os.path.join(llm_path, 'lib'))
         self.llm_tokenizer = AutoTokenizer.from_pretrained(
             llm_path, trust_remote_code=True
         )
