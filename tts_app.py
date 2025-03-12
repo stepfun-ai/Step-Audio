@@ -63,7 +63,7 @@ def launch_demo(args):
     emotion_options = ["高兴1", "高兴2", "生气1", "生气2", "悲伤1", "撒娇1"]
     language_options = ["中文", "英文", "韩语", "日语", "四川话", "粤语", "广东话"]
     speed_options = ["慢速1", "慢速2", "快速1", "快速2"]
-    speaker_options = ["Tingting", "nezha"]
+    speaker_options = ["Tingting"]
     # Gradio 界面
     with gr.Blocks() as demo:
         gr.Markdown("## 🎙️ Step-Audio-TTS-3B Demo")
