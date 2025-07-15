@@ -2,7 +2,7 @@ import os
 
 import torch
 import torchaudio
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 from tokenizer import StepAudioTokenizer
 from tts import StepAudioTTS
@@ -10,10 +10,14 @@ from utils import load_audio, load_optimus_ths_lib, speech_adjust, volumn_adjust
 
 
 class StepAudio:
-    def __init__(self, tokenizer_path: str, tts_path: str, llm_path: str):
+    def __init__(self, tokenizer_path: str, tts_path: str, llm_path: str, load_in_8bit: bool=False):
         load_optimus_ths_lib(os.path.join(llm_path, 'lib'))
+        q_config = None
+        if load_in_8bit:
+            q_config = BitsAndBytesConfig(load_in_8bit=True)
+            print(f"load in 8bit")
         self.llm_tokenizer = AutoTokenizer.from_pretrained(
-            llm_path, trust_remote_code=True
+            llm_path, trust_remote_code=True, quantization_config=q_config,
         )
         self.encoder = StepAudioTokenizer(tokenizer_path)
         self.decoder = StepAudioTTS(tts_path, self.encoder)
@@ -22,6 +26,7 @@ class StepAudio:
             torch_dtype=torch.bfloat16,
             device_map="auto",
             trust_remote_code=True,
+            quantization_config=q_config,
         )
 
     def __call__(
@@ -73,26 +78,3 @@ class StepAudio:
             text_with_audio += "<|BOT|>assistant\n"
         return text_with_audio
 
-
-if __name__ == "__main__":
-    model = StepAudio(
-        encoder_path="/mnt/ys-shai-jfs/open-step1o-audio/step1o-audio-encoder",
-        decoder_path="/mnt/ys-shai-jfs/open-step1o-audio/step1o-audio-decoder",
-        llm_path="/mnt/ys-shai-jfs/open-step1o-audio/step1o-audio-v18",
-    )
-
-    text, audio, sr = model(
-        [{"role": "user", "content": "你好，我是你的朋友，我叫小明，你叫什么名字？"}],
-        "Tingting",
-    )
-    torchaudio.save("output/output_e2e_tqta.wav", audio, sr)
-    text, audio, sr = model(
-        [
-            {
-                "role": "user",
-                "content": {"type": "audio", "audio": "output/output_e2e_tqta.wav"},
-            }
-        ],
-        "Tingting",
-    )
-    torchaudio.save("output/output_e2e_aqta.wav", audio, sr)
