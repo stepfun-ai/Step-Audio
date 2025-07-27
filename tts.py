@@ -122,11 +122,12 @@ class StepAudioTTS:
     def register_speakers(self):
         self.speakers_info = {}
 
-        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","speakers","speakers_info.json"), "r", encoding='utf-8') as f:#changed to abs path
+        #fix at 25/7/27 remove '..' in l 126&130 cause it didn't actually exist
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"speakers","speakers_info.json"), "r", encoding='utf-8') as f:#changed to abs path and encoding into utf-8
             speakers_info = json.load(f)
 
         for speaker_id, prompt_text in speakers_info.items():
-            prompt_wav_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","speakers",f"{speaker_id}_prompt.wav")
+            prompt_wav_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),"speakers",f"{speaker_id}_prompt.wav")
             prompt_code, prompt_token, prompt_token_len, speech_feat, speech_feat_len, speech_embedding = (
                 self.preprocess_prompt_wav(prompt_wav_path)
             )
