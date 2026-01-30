@@ -6,6 +6,7 @@
 # This repository is no longer maintained, please refer to:
 ## [Step-Audio2&Step-Audio2-mini](https://github.com/stepfun-ai/Step-Audio2) for End-to-end speech conversation
 ## [Step-Audio-R1&Step-Audio-R1.1](https://github.com/stepfun-ai/Step-Audio-R1) for Speech Reasoning.
+## [Step-Audio-EditX](https://github.com/stepfun-ai/Step-Audio-EditX) for Audio Editing.
 
 # Step-Audio
 <p align="center">
