@@ -3,7 +3,7 @@
 </p>
 <br><br>
 
-<img src="assets/QRCode.jpeg"  height=100>
+<img src="assets/QRCode.jpeg"  height=300>
 开发者微信交流群、Developer Group
 
 # This repository is no longer maintained, please refer to:
