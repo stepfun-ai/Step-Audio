@@ -8,12 +8,16 @@ def main():
     parser.add_argument(
         "--model-path", type=str, required=True, help="Base path for model files"
     )
+    parser.add_argument(
+        "--load-in-8bit", action="store_true", help="Base path for model files"
+    )
     args = parser.parse_args()
 
     model = StepAudio(
         tokenizer_path=f"{args.model_path}/Step-Audio-Tokenizer",
         tts_path=f"{args.model_path}/Step-Audio-TTS-3B",
         llm_path=f"{args.model_path}/Step-Audio-Chat",
+        load_in_8bit=args.load_in_8bit
     )
 
     # example for text input
